@@ -70,3 +70,11 @@
     PSeries Name | Series Code | Country Name | Country Code | 2007 [YR2007]
     :---------: | :------: | :-----: | :-----: | :-----:
     Unemployment, total (% of total labor force) (modeled ILO estimate) | SL.UEM.TOTL.ZS  | Afghanistan | AFG | 8,108
+
+- World Happiness Report
+  - <https://www.kaggle.com/datasets/unsdsn/world-happiness>
+  - 2015.csv
+  - 2016.csv
+  - 2017.csv
+  - 2018.csv
+  - 2019.csv

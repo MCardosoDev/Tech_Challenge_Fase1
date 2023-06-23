@@ -1,6 +1,8 @@
 # Tech_Challenge_Fase1
 ### Analise de dados de exportação de vinhos do Brasil para outros países.
-###   
+
+> Para visualizar as analises em localhost run
+>> **streamlit run Tech_Challenge.py**
 
 ## Libs
 
@@ -12,6 +14,7 @@
 - pip install plotly
 - pip install streamlit 
 - pip install openpyxl
+- pip install python-math
 
 ## Dados usados no período entre 2007 e 2021
 

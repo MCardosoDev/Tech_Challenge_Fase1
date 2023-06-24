@@ -81,3 +81,11 @@
   - 2017.csv
   - 2018.csv
   - 2019.csv
+
+- Projeção do consumo de álcool dos países para 2020 e 2025 OMS
+  - <https://www.who.int/data/gho/data/indicators/indicator-details/GHO/alcohol-total-(recorded-unrecorded)-per-capita-(15-)-consumption-with-95-ci-projections-to-2020-and-2025>
+  
+  Location | Period | FactValueNumeric
+  :---------: | :------: | :-----:
+  Afghanistan | 2020 | 16.2
+  Afghanistan | 2025 | 18.3

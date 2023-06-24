@@ -13,7 +13,7 @@ def plot_pareto(data, bar_x, bar_y, scatter_x, scatter_y, title_x, title_y, mean
         color=bar_x,
         color_discrete_sequence=px.colors.qualitative.T10,
         template='plotly_white',
-        text_auto='.2s'
+        text_auto='.2s' # type: ignore
     )
 
     pareto.update_layout(
@@ -35,7 +35,13 @@ def plot_pareto(data, bar_x, bar_y, scatter_x, scatter_y, title_x, title_y, mean
     pareto.update_layout(
         xaxis=dict(title=title_x),
         yaxis=dict(title=title_y),
-        yaxis2=dict(title='Porcentagem Acumulada', overlaying='y', side='right', showgrid=False, range=[0, 100])
+        yaxis2=dict(
+            title='Porcentagem Acumulada',
+            overlaying='y',
+            side='right',
+            showgrid=False,
+            range=[0, 100]
+        )
     )
 
     pareto.update_traces(showlegend=False)
@@ -53,10 +59,11 @@ def plot_pareto(data, bar_x, bar_y, scatter_x, scatter_y, title_x, title_y, mean
     pareto.add_shape(
         type='line',
         x0=0,
-        x1=7,
+        x1=1,
         y0=mean,
         y1=mean,
-        line=dict(color='LightBlue', width=1)
+        line=dict(color='LightBlue', width=1),
+        xref='paper'
     )
 
     pareto.add_annotation(
@@ -83,9 +90,31 @@ def plot_regressao_estimada(data, title, data_type, country_order=None):
     regressao.update_layout(
         title=title,
         width=1300,
-        height=600,
+        height=800,
         showlegend=False,
-        colorway = ['LightBlue', 'LightGreen', 'Orange', 'Lavender', 'Tan', 'Magenta', 'Cyan']
+        colorway = [
+            "#ADD8E6",   # LightBlue
+            "#90EE90",   # LightGreen
+            "#FFA500",   # Orange
+            "#E6E6FA",   # Lavender
+            "#D2B48C",   # Tan
+            "#FF00FF",   # Magenta
+            "#00FFFF",   # Cyan
+            "#FFFFE0",   # LightYellow
+            "#E0FFFF",   # LightCyan
+            "#FFB6C1",   # LightPink
+            "#D3D3D3",   # LightGray
+            "#FFE4E1",   # MistyRose
+            "#98FB98",   # PaleGreen
+            "#E0FFFF",   # LightCyan
+            "#FFF0F5",   # LavenderBlush
+            "#FFDAB9",   # PeachPuff
+            "#AFEEEE",   # PaleTurquoise
+            "#FFC0CB",   # Pink
+            "#F0FFF0",   # Honeydew
+            "#FFE4B5",   # Moccasin
+            "#FFFFF0"    # Ivory
+        ]
     )
 
     for i, pais in enumerate(data.pais):
@@ -110,3 +139,50 @@ def plot_regressao_estimada(data, title, data_type, country_order=None):
         )
 
     return regressao
+
+def plot_consumo_projetado(data, title, country_order=None):
+    if country_order is not None:
+        data = data[data["pais"].isin(country_order)]
+        data["pais"] = pd.Categorical(data["pais"], categories=country_order, ordered=True)
+        data = data.sort_values("pais")
+
+    consumo = go.Figure()
+    consumo.add_trace(
+        go.Bar(
+            x=data.pais, 
+            y=data["2020"],
+            name="2020",
+            marker=dict(color="lightblue"),
+            text=data["2020"],
+            textposition="auto"
+        )
+    )
+    consumo.add_trace(
+        go.Bar(
+            x=data.pais,
+            y=data["2025"],
+            name="2025",
+            marker=dict(color="lightgreen"),
+            text=data["2025"],
+            textposition="auto"
+        )
+    )
+    
+    for i, pais in enumerate(data.pais):
+        diff = round(data["diferenca"].iloc[i], 2)
+        consumo.add_annotation(
+            x=pais,
+            y=max(data["2020"].iloc[i], data["2025"].iloc[i]),
+            text=f"Diferença: {diff}",
+            showarrow=False,
+            font=dict(color="white"),
+            yshift=10
+        )
+    
+    consumo.update_layout(
+        title=title,
+        xaxis_title="Países",
+        barmode="group"
+    )
+    
+    return consumo

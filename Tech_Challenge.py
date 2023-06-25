@@ -51,7 +51,11 @@ dataset_importacao.head(10)
 
 #%%
 dataset_consumo = pd.read_csv('Data/Consumo.csv', sep=',')
-dataset_consumo.query("pais == 'Suíça'")
+dataset_consumo.head(10)
+
+#%%
+dataset_consumo_vinho = pd.read_csv('Data/ConsumoVinho.csv', sep=',')
+dataset_consumo_vinho.head(10)
 
 #%%
 dataset_wht = pd.read_csv('Data/wht.csv', sep=',')
@@ -85,7 +89,7 @@ def main():
                                                                 "Valores de Exportação",
                                                                 "Valores de Importação",
                                                                 "Econômicos - Banco Mundial",
-                                                                "Consumo de álcool - OMS",
+                                                                "Consumo de álcool - WHO/OIV",
                                                                 "Resultados"
                                                             ])
 
@@ -122,10 +126,14 @@ def main():
 
             - Link: [World Happiness Report](https://www.kaggle.com/datasets/unsdsn/world-happiness)
         
-        4. **Consumo de Álcool per capita** - Os dados sobre o consumo de álcool per capita foram obtidos da Organização Mundial da Saúde (OMS). Esses dados fornecem informações sobre a quantidade de álcool (incluindo registro e não registro) consumida por pessoa com idade igual ou superior a 15 anos em diferentes países, juntamente com projeções com intervalo de confiança de 95% para os anos de 2020 e 2025. Isso pode ajudar a entender os hábitos de consumo de bebidas alcoólicas e o potencial de mercado para vinhos em cada país.
+        4. **Consumo de Álcool** - Os dados sobre o consumo de álcool per capita foram obtidos da Organização Mundial da Saúde (OMS). Esses dados fornecem informações sobre a quantidade de álcool (incluindo registro e não registro) consumida por pessoa com idade igual ou superior a 15 anos em diferentes países, juntamente com projeções com intervalo de confiança de 95% para os anos de 2020 e 2025. Isso pode ajudar a entender os hábitos de consumo de bebidas alcoólicas e o potencial de mercado para vinhos em cada país.
 
-           - Link: [Consumo de Álcool per capita](https://www.who.int/data/gho/data/indicators/indicator-details/GHO/alcohol-total-(recorded-unrecorded)-per-capita-(15-)-consumption-with-95-ci-projections-to-2020-and-2025)
-    
+           - Link: [WHO](https://www.who.int/data/gho/data/indicators/indicator-details/GHO/alcohol-total-(recorded-unrecorded)-per-capita-(15-)-consumption-with-95-ci-projections-to-2020-and-2025)
+
+        5. **Dados sobre o consumo de vinho** - A OIV fornece estatísticas abrangentes sobre o consumo de vinho em diferentes países. Esses dados podem incluir informações sobre o consumo per capita, o volume total de consumo, entre outros aspectos relevantes para entender o mercado do vinho em cada país.
+
+           - Link: [OIV](https://www.oiv.int/en/statistics)
+
         ## Análise e Insights
 
         Com base nos dados coletados, é possível realizar uma análise detalhada para melhorar e exportação de vinhos.
@@ -296,9 +304,25 @@ def main():
 
     with tab6:
         '''
-        ##### Valores de consumo de álcool dos países que mais impactam na exportação de vinhos
+        ##### Valores de consumo de álcool e somente vinho dos países que mais impactam na exportação de vinhos
 
-        ***Valores correspondentes ao fato e projeção com intervalo de confiança de 95% para os anos de 2020 e 2025***
+        ***Valores sobre o consumo de vinho correspondentes ao período de 15 anos entre 2007 a 2021***
+        ***Valores sobre o consumo de álcool correspondentes ao fato e projeção com intervalo de confiança de 95% para os anos de 2020 e 2025***
+        '''
+        st.markdown('###### Valor US$')
+        st.plotly_chart(
+            plot_regressao_estimada(
+                dataset_consumo_vinho[dataset_consumo_vinho['pais'].isin(exp_ordem_pareto)],
+                'Valores de consumo de vinho dos países responsáveis por 80% da exportação',
+                int,
+                exp_ordem_pareto
+            ),
+            use_container_width = True
+        )
+        '''
+            Para estimativa de ***Regressão** foi utilizado para calcular o coeficientes do polinômio ajustado com a função polyfit do numpy para grau 1 que utiliza o método dos mínimos quadrados, que minimiza o erro quadrático.
+            - E = Σᵢ(yᵢ - p(xᵢ))²
+            - p(x) = p[0] * xᵈᵉᵍ + p[1] * xᵈᵉᵍ⁻¹ + ... + p[deg-1] * x + p[deg]
         '''
         st.plotly_chart(
             plot_consumo_projetado(

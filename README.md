@@ -89,3 +89,11 @@
   :---------: | :------: | :-----:
   Afghanistan | 2020 | 16.2
   Afghanistan | 2025 | 18.3
+
+- Dados sobre o consumo de vinho dos países fornecidos pela Organização Internacional de vinha e vinho OIV
+  - <https://www.oiv.int/index.php/what-we-do/statistics>
+
+  Region/Country | Year | Quantity
+  :---------: | :------: | :-----:
+  Afghanistan | 2007 | 10.0
+  Afghanistan | 2008 | 1.0

@@ -2,7 +2,7 @@
 import pandas as pd
 import streamlit as st
 import locale
-from Utils import plot_pareto, plot_regressao_estimada, plot_consumo_projetado
+from Utils import plot_pareto, plot_regressao_estimada, plot_consumo_projetado, plot_comparacao
 
 #%%
 dataset_exp = pd.read_csv('Data/ExpVinhoPeriodo.csv', sep=',')
@@ -11,6 +11,7 @@ dataset_exp.head(10)
 
 #%%
 dataset_imp = pd.read_csv('Data/ImpVinhosPeriodo.csv', sep=',')
+dataset_imp = dataset_imp.sort_values('Valor', ascending=False)
 dataset_imp.head(10)
 
 #%%
@@ -78,6 +79,7 @@ total_imp_pareto.head(10)
 #%%
 imp_ordem_pareto = list(total_imp_pareto.Pais_destino)
 exp_ordem_pareto = list(total_exp_pareto.Pais_destino)
+
 #%%
 def main():
     st.set_page_config(layout="wide")
@@ -208,7 +210,7 @@ def main():
             use_container_width = True
         )
         '''
-            Para estimativa de ***Regressão** foi utilizado para calcular o coeficientes do polinômio ajustado com a função polyfit do numpy para grau 1 que utiliza o método dos mínimos quadrados, que minimiza o erro quadrático.
+            Para estimativa de **Regressão** foi utilizado para calcular o coeficientes do polinômio ajustado com a função polyfit do numpy para grau 1 que utiliza o método dos mínimos quadrados, que minimiza o erro quadrático.
             - E = Σᵢ(yᵢ - p(xᵢ))²
             - p(x) = p[0] * xᵈᵉᵍ + p[1] * xᵈᵉᵍ⁻¹ + ... + p[deg-1] * x + p[deg]
         '''
@@ -221,16 +223,28 @@ def main():
         '''
         st.markdown('###### Valor US$')
         st.plotly_chart(
+            plot_pareto(
+                total_imp_pareto,
+                "Pais_destino",
+                "Valor",
+                "Pais_destino",
+                "Porcentagem_acumulada_valor",
+                "Países",
+                "Vendas",
+                total_imp_pareto.Valor.mean()
+            ),  use_container_width = True
+        )
+        st.plotly_chart(
             plot_regressao_estimada(
                 dataset_importacao[dataset_importacao['pais'].isin(imp_ordem_pareto)],
-                'Valores de exportação para os principais países',
+                'Valores de importação para os principais países',
                 int,
                 imp_ordem_pareto
             ),
             use_container_width = True
         )
         '''
-            Para estimativa de ***Regressão** foi utilizado para calcular o coeficientes do polinômio ajustado com a função polyfit do numpy para grau 1 que utiliza o método dos mínimos quadrados, que minimiza o erro quadrático.
+            Para estimativa de **Regressão**foi utilizado para calcular o coeficientes do polinômio ajustado com a função polyfit do numpy para grau 1 que utiliza o método dos mínimos quadrados, que minimiza o erro quadrático.
             - E = Σᵢ(yᵢ - p(xᵢ))²
             - p(x) = p[0] * xᵈᵉᵍ + p[1] * xᵈᵉᵍ⁻¹ + ... + p[deg-1] * x + p[deg]
         '''
@@ -297,7 +311,7 @@ def main():
             use_container_width = True
         )
         '''
-            Para estimativa de ***Regressão** foi utilizado para calcular o coeficientes do polinômio ajustado com a função polyfit do numpy para grau 1 que utiliza o método dos mínimos quadrados, que minimiza o erro quadrático.
+            Para estimativa de **Regressão** foi utilizado para calcular o coeficientes do polinômio ajustado com a função polyfit do numpy para grau 1 que utiliza o método dos mínimos quadrados, que minimiza o erro quadrático.
             - E = Σᵢ(yᵢ - p(xᵢ))²
             - p(x) = p[0] * xᵈᵉᵍ + p[1] * xᵈᵉᵍ⁻¹ + ... + p[deg-1] * x + p[deg]
         '''
@@ -320,7 +334,7 @@ def main():
             use_container_width = True
         )
         '''
-            Para estimativa de ***Regressão** foi utilizado para calcular o coeficientes do polinômio ajustado com a função polyfit do numpy para grau 1 que utiliza o método dos mínimos quadrados, que minimiza o erro quadrático.
+            Para estimativa de **Regressão** foi utilizado para calcular o coeficientes do polinômio ajustado com a função polyfit do numpy para grau 1 que utiliza o método dos mínimos quadrados, que minimiza o erro quadrático.
             - E = Σᵢ(yᵢ - p(xᵢ))²
             - p(x) = p[0] * xᵈᵉᵍ + p[1] * xᵈᵉᵍ⁻¹ + ... + p[deg-1] * x + p[deg]
         '''
@@ -333,14 +347,77 @@ def main():
             use_container_width = True
         )
         '''
-            Dados disponíveis no ***World Health Organization***
+            Dados disponíveis no **World Health Organization**
 
             Diferença corresponde ao valor da projeção para 2025 menos valor fato de 2020
         '''
 
     with tab7:
         '''
-        #### Resultados
+        #### Resultados da analise
+        
+        Com a análise dos dados de exportação, principalmente financeiros, notamos que, apesar da crise global em 2019-2020 devido à Covid-19, observamos um cenário favorável para a economia em 2021, principalmente em alguns países na exportação de vinhos.
+
+        Dois países, Paraguai e Rússia, são responsáveis por 80% do volume exportado e quase 80% do montante total. Montamos uma lista dos países mais favoráveis a um aumento na exportação de vinhos brasileiros:
+
+        - **Paraguai**
+        - **Rússia**
+        - **Estados Unidos**
+        - **Reino Unido**
+        - **China**
+        - **Países Baixos**
+        - **Alemanha**
+        - **Haiti**
+
+        Excluiremos os países analisados que são responsáveis pelo maior volume do qual importamos vinho, devido à correlação negativa entre importação e exportação, com exceção dos Estados Unidos que é um país com um mercado muito grande para exportação como a china.
+
+        Um país com uma queda alta na exportação, mas que, apesar da Covid-19, está com o PIB em uma crescente histórica, inflação e desemprego baixos e com aumento no índice de comércio no último ano.
+
+        De acordo com a Organização Mundial da Saúde (OMS) e a Organização Internacional da Vinha e do Vinho (OIV), os Estados Unidos devem ter um aumento no consumo de bebidas alcoólicas de até 25%, seguindo um aumento histórico no consumo de vinho.
+
+        Graficamente, podemos comparar os dados de exportação e importação para visualizar a correlação:
+        '''
+        st.markdown('###### Valor US$')
+        st.plotly_chart(
+            plot_comparacao(
+                dataset_exportacao.query("pais == 'Estados Unidos'"),
+                dataset_importacao.query("pais == 'Estados Unidos'"),
+                'Exportação',
+                'Importação',
+                'Regressão de Exportação e Importação Estados Unidos',
+                int,
+                'Estados Unidos'
+            ),
+            use_container_width = True
+        )
+        # st.write("\n")
+        # st.plotly_chart(
+        #     plot_regressao_estimada(
+        #         dataset_importacao.query("pais == 'Estados Unidos'"),
+        #         'Valores de importação para os principais países',
+        #         int,
+        #         pais_comparacao
+        #     ),
+        #     use_container_width = True
+        # )
+        '''
+        O Paraguai é um país de fronteira que propicia a exportação, e mesmo após a queda da exportação em 2019-2020, teve um aumento em 2021 e segue em uma tendência histórica de crescimento. O mesmo ocorre com o PIB, inflação e aumento do índice de comércio exterior. De acordo com a OMS e a OIV, é projetado um aumento no consumo de bebidas alcoólicas de até 25%, mesmo com uma queda histórica no consumo de vinho nos últimos anos.
+
+        Chile, Uruguai e Argentina, apesar de importarem uma quantidade alta para o Brasil, seguem a correlação negativa entre importação e exportação.
+
+        A Rússia e o Reino Unido são países que têm valores de exportação de vinhos bastante semelhantes e, após a Covid-19, tiveram um aumento no PIB. Apesar de um aumento na inflação vindo de uma queda histórica, apresentam o mesmo índice de comércio exterior. De acordo com a OMS e a OIV, é projetado um aumento no consumo de álcool de até 25%, e ambos estão em crescimento no consumo de vinho nos últimos anos.
+
+        A China, apesar de ter uma queda na exportação de vinho em 2021, é um país com um mercado de grande potencial a ser explorado. Apresenta um aumento histórico no PIB e queda histórica na inflação, mesmo durante a Covid-19. De acordo com a OMS e a OIV, é projetado um aumento no consumo de álcool, porém com uma queda forte no consumo de vinho.
+
+        Países Baixos e Alemanha, apesar de uma exportação em queda nos últimos anos, de acordo com a OMS e a OIV, é projetada uma queda no consumo de álcool, mas com um aumento no consumo de vinho nos últimos anos, o que pode ser explorado. A Alemanha está em uma queda histórica e os Países Baixos em um aumento histórico. Após a Covid-19, houve um aumento no PIB e, apesar do aumento da inflação em 2021, historicamente se mantêm estáveis. Ambos os países têm um aumento histórico no índice de comércio.
+
+        O Haiti é um país que, apesar de ter um clima mais quente, assim como o Paraguai, teve o maior aumento na exportação de vinhos brasileiros. É o país com o maior aumento histórico do PIB da lista, mesmo com a Covid-19. Apesar de um aumento histórico na inflação, teve uma grande queda em 2021. De acordo com a OMS e a OIV, é projetado um aumento no consumo de álcool e um aumento histórico no consumo de vinho, apesar de uma queda no índice de comércio exterior. No entanto, mantém um aumento na exportação.
+
+        '''
+        '''
+            Para estimativa de **Regressão** foi utilizado para calcular o coeficientes do polinômio ajustado com a função polyfit do numpy para grau 1 que utiliza o método dos mínimos quadrados, que minimiza o erro quadrático.
+            - E = Σᵢ(yᵢ - p(xᵢ))²
+            - p(x) = p[0] * xᵈᵉᵍ + p[1] * xᵈᵉᵍ⁻¹ + ... + p[deg-1] * x + p[deg]
         '''
 
 if __name__ == "__main__":

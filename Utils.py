@@ -90,7 +90,7 @@ def plot_regressao_estimada(data, title, data_type, country_order=None):
     regressao.update_layout(
         title=title,
         width=1300,
-        height=800,
+        height=num_paises*133,
         showlegend=False,
         colorway = [
             "#ADD8E6",   # LightBlue
@@ -186,3 +186,62 @@ def plot_consumo_projetado(data, title, country_order=None):
     )
     
     return consumo
+
+def plot_comparacao(data1, data2, name1, name2, title, data_type, country):
+    regressao = make_subplots(rows=1, cols=2, subplot_titles=(name1, name2))
+    regressao.update_layout(
+        title=title,
+        width=1300,
+        height=300,
+        showlegend=False,
+        colorway=[
+            "#ADD8E6",   # LightBlue
+            "#90EE90",   # LightGreen
+            "#FFA500",   # Orange
+            "#E6E6FA",   # Lavender
+            "#D2B48C",   # Tan
+            "#FF00FF",   # Magenta
+            "#00FFFF",   # Cyan
+            "#FFFFE0",   # LightYellow
+            "#E0FFFF",   # LightCyan
+            "#FFB6C1",   # LightPink
+            "#D3D3D3",   # LightGray
+            "#FFE4E1",   # MistyRose
+            "#98FB98",   # PaleGreen
+            "#E0FFFF",   # LightCyan
+            "#FFF0F5",   # LavenderBlush
+            "#FFDAB9",   # PeachPuff
+            "#AFEEEE",   # PaleTurquoise
+            "#FFC0CB",   # Pink
+            "#F0FFF0",   # Honeydew
+            "#FFE4B5",   # Moccasin
+            "#FFFFF0"    # Ivory
+        ]
+    )
+
+    for i, data in enumerate([data1, data2]):
+        trace = go.Scatter(x=data.columns[1:], y=data.loc[data['pais'] == country].values[0][1:], name=country)
+        x = np.array(data.columns[1:], dtype=data_type)
+        y = np.array(data.loc[data['pais'] == country].values[0][1:], dtype=data_type)
+        coef = np.polyfit(x, y, 1)
+        line = coef[1] + coef[0] * x
+        reg = go.Scatter(x=x, y=line, mode='lines', name='Regressão', line=dict(color='red'))
+        regressao.add_trace(reg, row=1, col=i+1)
+        regressao.add_trace(trace, row=1, col=i+1)
+        regressao.update_xaxes(
+            row=1,
+            col=i+1,
+            title_standoff=10,
+            tickfont=dict(size=8),
+            title_font=dict(size=10),
+            tickvals=data.columns[1:]
+        )
+        regressao.update_yaxes(
+            row=1,
+            col=i+1,
+            title_standoff=10,
+            tickfont=dict(size=8),
+            title_font=dict(size=10)
+        )
+
+    return regressao

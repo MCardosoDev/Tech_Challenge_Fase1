@@ -8,7 +8,7 @@ Japão,Brasil,1502311,2612375
 Países Baixos,Brasil,1410166,4119122
 Reino Unido,Brasil,1305329,4717554
 Haiti,Brasil,1238100,1586194
-"Alemanha, República Democrática",Brasil,1020933,2739079
+Alemanha,Brasil,1020933,2739079
 Portugal,Brasil,526742,739088
 Bélgica,Brasil,402916,1392832
 França,Brasil,318208,706582
@@ -20,7 +20,7 @@ Suíça,Brasil,177400,956117
 Bolívia,Brasil,176876,244657
 Uruguai,Brasil,155478,222511
 Polônia,Brasil,154475,611080
-"Tcheca, República",Brasil,150527,536018
+República Tcheca,Brasil,150527,536018
 Curaçao,Brasil,150446,253733
 Hong Kong,Brasil,139761,415676
 Nigéria,Brasil,129407,208177
@@ -28,7 +28,7 @@ Antilhas Holandesas,Brasil,114027,160864
 Estônia,Brasil,107768,144886
 Suécia,Brasil,99449,350827
 Finlândia,Brasil,86763,537432
-Taiwan (FORMOSA),Brasil,82458,287987
+Taiwan,Brasil,82458,287987
 Chile,Brasil,82041,129939
 Dinamarca,Brasil,81582,386745
 Luxemburgo,Brasil,67290,371165
@@ -42,7 +42,7 @@ Cingapura,Brasil,34837,108474
 Itália,Brasil,31677,155007
 Suriname,Brasil,28576,47633
 Peru,Brasil,24668,53789
-"Marshall, Ilhas",Brasil,23113,60422
+Ilhas Marshall,Brasil,23113,60422
 Guine Equatorial,Brasil,20684,81903
 Guatemala,Brasil,18964,37839
 Libéria,Brasil,17808,63852
@@ -64,7 +64,7 @@ Nova Caledônia,Brasil,7227,11924
 Togo,Brasil,7061,9823
 Equador,Brasil,6482,7412
 Chipre,Brasil,5284,13638
-"Coreia, Republica Sul",Brasil,4900,19872
+Coreia do Sul,Brasil,4900,19872
 Guiana,Brasil,4569,14067
 Singapura,Brasil,4504,14346
 Tailândia,Brasil,2843,7179
@@ -79,7 +79,7 @@ Gibraltar,Brasil,792,2953
 Áustria,Brasil,675,5220
 Hungria,Brasil,627,4686
 República Dominicana,Brasil,601,2438
-"Eslovaca, Republica",Brasil,585,16063
+Eslováquia,Brasil,585,16063
 Dominica,Brasil,460,634
 Barbados,Brasil,395,1407
 Letônia,Brasil,387,3723

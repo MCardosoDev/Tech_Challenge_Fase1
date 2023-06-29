@@ -373,7 +373,7 @@ def main():
 
         Um país com uma queda alta na exportação, mas que, apesar da Covid-19, está com o PIB em uma crescente histórica, inflação e desemprego baixos e com aumento no índice de comércio no último ano.
 
-        De acordo com a Organização Mundial da Saúde (OMS) e a Organização Internacional da Vinha e do Vinho (OIV), os Estados Unidos devem ter um aumento no consumo de bebidas alcoólicas de até 25%, seguindo um aumento histórico no consumo de vinho.
+        De acordo com a Organização Mundial da Saúde (OMS) e a Organização Internacional da Vinha e do Vinho (OIV), os Estados Unidos devem ter um aumento no consumo de bebidas alcoólicas até 2025, seguindo um aumento histórico no consumo de vinho.
 
         Graficamente, podemos comparar os dados de exportação e importação para visualizar a correlação:
         '''
@@ -405,7 +405,7 @@ def main():
 
         Chile, Uruguai e Argentina, apesar de importarem uma quantidade alta para o Brasil, seguem a correlação negativa entre importação e exportação.
 
-        A Rússia e o Reino Unido são países que têm valores de exportação de vinhos bastante semelhantes e, após a Covid-19, tiveram um aumento no PIB. Apesar de um aumento na inflação vindo de uma queda histórica, apresentam o mesmo índice de comércio exterior. De acordo com a OMS e a OIV, é projetado um aumento no consumo de álcool de até 25%, e ambos estão em crescimento no consumo de vinho nos últimos anos.
+        A Rússia e o Reino Unido são países que têm valores de exportação de vinhos bastante semelhantes e, após a Covid-19, tiveram um aumento no PIB. Apesar de um aumento na inflação vindo de uma queda histórica, apresentam o mesmo índice de comércio exterior. De acordo com a OMS e a OIV, é projetado um aumento no consumo de álcool de até 2025, e ambos estão em crescimento no consumo de vinho nos últimos anos.
 
         A China, apesar de ter uma queda na exportação de vinho em 2021, é um país com um mercado de grande potencial a ser explorado. Apresenta um aumento histórico no PIB e queda histórica na inflação, mesmo durante a Covid-19. De acordo com a OMS e a OIV, é projetado um aumento no consumo de álcool, porém com uma queda forte no consumo de vinho.
 

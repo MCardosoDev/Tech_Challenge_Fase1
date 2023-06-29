@@ -181,7 +181,6 @@ def plot_consumo_projetado(data, title, country_order=None):
     
     consumo.update_layout(
         title=title,
-        xaxis_title="Países",
         barmode="group"
     )
     

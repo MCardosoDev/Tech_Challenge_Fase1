@@ -2,7 +2,7 @@
 import pandas as pd
 import streamlit as st
 import locale
-from Utils import plot_pareto, plot_regressao_estimada, plot_consumo_projetado, plot_comparacao
+from Utils import plot_pareto, plot_regressao_estimada, plot_consumo_projetado, plot_comparacao,plot_per_anual,plot_regressao1
 
 #%%
 dataset_exp = pd.read_csv('Data/ExpVinhoPeriodo.csv', sep=',')
@@ -18,6 +18,16 @@ dataset_imp.head(10)
 dataset_exp_pareto = pd.read_csv('Data/ExpPareto.csv', sep=',')
 dataset_exp_pareto.head(10)
 
+#%%
+dataset_Qexp_pareto = pd.read_csv('Data/QExpPareto.csv', sep=',')
+dataset_Qexp_pareto.head(10)
+
+#%%
+dataset_exp_pareto_5 = pd.read_csv('Data/ExpPareto5.csv', sep=',')
+dataset_exp_pareto_5.head(10)
+
+#%%
+dataset_anos = pd.read_csv('Data/PorcentAnual.csv', sep=',',index_col=0)
 #%%
 dataset_imp_pareto = pd.read_csv('Data/ImpPareto.csv', sep=',')
 dataset_imp_pareto.head(10)
@@ -69,9 +79,13 @@ dataset_exp.Valor.sum()
 dataset_exp.Quantidade.sum()
 
 #%%
-total_exp_pareto = dataset_exp_pareto.query("Porcentagem_acumulada_valor < 91 or Porcentagem_acumulada_quantidade < 91")
+# total_exp_pareto = dataset_exp_pareto.query("Porcentagem_acumulada_valor < 81")
+total_exp_pareto = dataset_exp_pareto.query("Porcentagem_acumulada_valor < 75")
 total_exp_pareto.head(10)
 
+#%%
+# total_Qexp_pareto = dataset_Qexp_pareto.query("Porcentagem_acumulada_quantidade < 92")
+# total_Qexp_pareto.head(10)
 #%%
 total_imp_pareto = dataset_imp_pareto.query("Porcentagem_acumulada_valor < 99 or Porcentagem_acumulada_quantidade < 99")
 total_imp_pareto.head(10)
@@ -79,19 +93,20 @@ total_imp_pareto.head(10)
 #%%
 imp_ordem_pareto = list(total_imp_pareto.Pais_destino)
 exp_ordem_pareto = list(total_exp_pareto.Pais_destino)
+ordem=["Paraguai","Estados Unidos", "China","Haiti","Reino Unido", "Rússia"]
 
 #%%
 def main():
     st.set_page_config(layout="wide")
-    st.title('Analise sobre a importação de vinhos e insights para melhorias')
+    st.title('Análise sobre a importação de vinhos e insights para melhorias')
     tab0, tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
                                                                 "Geral",
                                                                 "Exportação de Vinhos",
                                                                 "Vinhos - Princípio de Pareto",
                                                                 "Valores de Exportação",
+                                                                "Cenário mais Recente",
                                                                 "Valores de Importação",
-                                                                "Econômicos - Banco Mundial",
-                                                                "Consumo de álcool - WHO/OIV",
+                                                                "Dados Externos",
                                                                 "Resultados"
                                                             ])
 
@@ -166,56 +181,225 @@ def main():
 
         ***Valores correspondentes ao período de 15 anos entre 2007 a 2021***
         '''
-        st.markdown('###### Valor US$')
+        st.markdown('###### Quantidade (L)')
         st.plotly_chart(
             plot_pareto(
-                total_exp_pareto,
-                "Pais_destino",
-                "Valor",
-                "Pais_destino",
-                "Porcentagem_acumulada_valor",
-                "Países",
-                "Vendas",
-                total_exp_pareto.Valor.mean()
-            ),  use_container_width = True
-        )
-        st.write("\n")
-        st.markdown('###### Quantidade KG/L')
-        st.plotly_chart(
-            plot_pareto(
-                total_exp_pareto,
+                dataset_Qexp_pareto.query("Porcentagem_acumulada_quantidade < 92"),
                 "Pais_destino",
                 "Quantidade",
                 "Pais_destino",
                 "Porcentagem_acumulada_quantidade",
-                "Países",
+                "País",
                 "Quantidade",
-                total_exp_pareto.Quantidade.mean()
+                dataset_Qexp_pareto.Quantidade.mean()
             ),  use_container_width = True
         )
+        '''
+            Analisando o gráfico de pareto para volume total de vinho exportado pelo Brasil entre 2007 e 2021, nota-se que Rússia, Paraguai e Estados Unidos são responsáveis por 
+            mais de 80% desse volume.
+        
+        '''
+        st.write("\n")
+        st.markdown('###### Valor (US$)')
+        st.plotly_chart(
+            plot_pareto(
+                dataset_exp_pareto.query("Porcentagem_acumulada_valor < 81"),
+                "Pais_destino",
+                "Valor",
+                "Pais_destino",
+                "Porcentagem_acumulada_valor",
+                "País",
+                "Valor",
+                dataset_exp_pareto.Valor.mean()
+            ),  use_container_width = True
+        )
+        
+        '''
+            Ao observar o gráfico para valor total de vendas com a exportação de vinho nesse mesmo período, percebe-se que o Paraguai ultrapassa o percentual da Rússia, e
+            que Reino Unido passam a ter maior representatividade no percentual. O que indica que nesse país o vinho brasileiro é exportado por um valor superior.
+        
+        '''
+        
     with tab3:
-        '''
-        ##### Valores por país para os países que mais impactam na exportação de vinhos
+        # '''
+        # ##### Valores por país para os países que mais impactam na exportação de vinhos
 
-        ***Valores correspondentes ao período de 15 anos entre 2007 a 2021***
+        # ***Valores correspondentes ao período de 15 anos entre 2007 a 2021***
+        # '''
+    
+        st.plotly_chart(
+            plot_per_anual(dataset_anos),
+            use_container_width = True
+        )
         '''
-        st.markdown('###### Valor US$')
+        O gráfico acima ilustra como foi a distribuição dos valores exportados de vinho pelo Brasil entre 2007 e 2021. Alguns pontos interessantes ilustrados no gráfico são:\n
+        - Os picos de exportação em 2009 e 2013
+        - Queda no total de exportações em 2010
+        - Crescimento das exportações para o Paraguai
+                
+        #### Os picos de exportação em 2009 e 2013
+        Observando a altura total das barras, constata-se que houve dois picos, um no ano de 2009 e outro no ano de 2013. Avaliando o percentual de influência dos países na exportação, 
+        percebe-se que ambos os picos ocorreram devido ao crescimento das vendas para a **Rússia**. \n
+        Analisando abaixo o comportamento dos valores exportados para a Rússia ao longo dos anos, é possível notar esses picos. Contudo, após 2013, as vendas para a Rússia caíram bruscamente.
+        '''
+        st.plotly_chart(
+            plot_regressao1(
+                dataset_exportacao.set_index('pais').query("pais=='Rússia'").reset_index(),
+                'Valores de exportação para Rússia (US$)',
+                int
+            ),
+            use_container_width = True
+        )
+
+        '''
+        !!! Explicar ascenção e queda da Rússia em 2013 e 2014 e finalizar conluindo seu potencial para o futuro!!!
+        '''
+       
+        '''
+
+        #### Queda no total de exportações em 2010
+        !!! Falar da crise de 2008 e 2009 e dos embargos!!!
+        \n
+        Analisando abaixo os valores para os principais exportadores ao longo dos anos, juntamente com uma linha de tendência. Percebe-se que a crise global impactou negativamente as vendas, 
+        exceto para Rússia e China, que tiveram alta em 2009.
+        '''
+        # st.markdown('###### Valor (US$)')
+        
         st.plotly_chart(
             plot_regressao_estimada(
                 dataset_exportacao[dataset_exportacao['pais'].isin(exp_ordem_pareto)],
-                'Valores de exportação para os principais países',
+                'Valores de exportação para os principais países (US$)',
+                int,
+                exp_ordem_pareto
+
+            ),
+            use_container_width = True
+        )
+        '''
+        Como a alta exportação para China e Rússia, o mercado de exportação de vinho brasileiro não refletiu a crise em 2009.
+        Entretanto em 2010 as exportações também caíram para esses países, resultando na queda dos valores em 2010.\n
+        
+        #### Crescimento das exportações para o Paraguai
+        Nos gráficos acima também é possível perceber que as exportações para **Paraguai** vêm crescendo, principalmente a partir de 2014, ano no qual ultrapassa a Rússia como país 
+        que mais importa vinho do Brasil. \n
+        !!! Falar alguma notícia no Paraguai!!!\n
+        Outras tendências identificadas são: a de aumento das exportações para **China** e a de estabilidade para **Estados Unidos** e **Reino Unido**.\n
+        !!! Alguma notícia da China e falar como ela é interessante!!!
+       
+        '''
+       
+        #st.write("\n")
+        # st.markdown('###### Valor (US$)')
+        st.plotly_chart(
+            plot_regressao_estimada(
+                dataset_exportacao[dataset_exportacao['pais'].isin(exp_ordem_pareto)],
+                'Valores de exportação para os principais países (US$)',
                 int,
                 exp_ordem_pareto
             ),
             use_container_width = True
         )
-        '''
-            Para estimativa de **Regressão** foi utilizado para calcular o coeficientes do polinômio ajustado com a função polyfit do numpy para grau 1 que utiliza o método dos mínimos quadrados, que minimiza o erro quadrático.
-            - E = Σᵢ(yᵢ - p(xᵢ))²
-            - p(x) = p[0] * xᵈᵉᵍ + p[1] * xᵈᵉᵍ⁻¹ + ... + p[deg-1] * x + p[deg]
+
+        st.markdown("---")
+        st.markdown(
+            """
+            <style>
+            .small-font {
+             font-size: 12px;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+        st.markdown(
+        '''<span class="small-font">
+            Para estimativa de Regressão foi utilizado para calcular o coeficientes do polinômio ajustado com a função polyfit do numpy para grau 1 que utiliza o método dos mínimos quadrados, que minimiza o erro quadrático.
+             </span>''',
+        unsafe_allow_html=True
+        )
+        st.markdown(
+        '<span class="small-font">E = Σᵢ(yᵢ - p(xᵢ))² </span>',
+        unsafe_allow_html=True
+        )
+        st.markdown(
+        '<span class="small-font">p(x) = p[0] * xᵈᵉᵍ + p[1] * xᵈᵉᵍ⁻¹ + ... + p[deg-1] * x + p[deg] </span>',
+        unsafe_allow_html=True
+        )
+    
+    with tab4:
+          
         '''
 
-    with tab4:
+        Devido a mudança do perfil de exportação ao longo dos 15 anos e visando entender como está o comportamento em um período mais recente, é válido avaliar o gráfico de pareto para o período de 5 anos entre 2016 
+        e 2021 abaixo.
+        '''
+        st.write("\n")
+        st.markdown('###### Valor Total de Vendas por países responsáveis por até 90% da vendas no período de 2016 a 2021')
+        
+        st.plotly_chart(
+            plot_pareto(
+                dataset_exp_pareto_5.query("Porcentagem_acumulada_valor < 90").reset_index(),
+                "Pais_destino",
+                "Valor",
+                "Pais_destino",
+                "Porcentagem_acumulada_valor",
+                "País",
+                "Valor (U$)",
+                dataset_exp_pareto_5.Valor.mean()
+            ),  use_container_width = True
+        )
+        st.write("\n")
+        '''        
+        Nota-se um perfil muito diferente do observado para o período de 15 anos. Sendo a maior diferença a pouca expressividade da Rússia, confirmando a tendência de queda 
+        observada nos gráficos anteriores.\n
+        Uma novidade que aparece no perfil mais recente é o **Haiti**, que aparece como um dos países do grupo com 80% da influência no valor exportado, ultrapassando o Reino Unido. 
+        Dando um pouco mais de atenção a esse país, abaixo encontra-se o gráfico dos valores exportados de vinho para Haiti ao longo dos 15 anos.
+        
+        '''
+        st.plotly_chart(
+            plot_regressao1(
+                dataset_exportacao.set_index('pais').query("pais=='Haiti'").reset_index(),
+                'Valores de exportação para Haiti (US$)',
+                int
+            ),
+            use_container_width = True
+        )
+        
+        '''      
+        Observa-se que os valores das exportações para o Haiti apresentou uma grande crescente a partir de 2009. Sendo assim, Haiti é um país de que merece atenção dos investidores com 
+        grande potencial de exportação para os próximos anos.
+
+        !!! VER NOTÍCIA DE 2019!!!
+        
+        '''
+        
+        st.markdown("---")
+        st.markdown(
+            """
+            <style>
+            .small-font {
+             font-size: 12px;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+        st.markdown(
+        '''<span class="small-font">
+            Para estimativa de Regressão foi utilizado para calcular o coeficientes do polinômio ajustado com a função polyfit do numpy para grau 1 que utiliza o método dos mínimos quadrados, que minimiza o erro quadrático.
+             </span>''',
+        unsafe_allow_html=True
+        )
+        st.markdown(
+        '<span class="small-font">E = Σᵢ(yᵢ - p(xᵢ))² </span>',
+        unsafe_allow_html=True
+        )
+        st.markdown(
+        '<span class="small-font">p(x) = p[0] * xᵈᵉᵍ + p[1] * xᵈᵉᵍ⁻¹ + ... + p[deg-1] * x + p[deg] </span>',
+        unsafe_allow_html=True
+        )
+        
+    with tab5:
         '''
         ##### Valores por país dos que mais importamos vinhos
 
@@ -224,14 +408,14 @@ def main():
         st.markdown('###### Valor US$')
         st.plotly_chart(
             plot_pareto(
-                total_imp_pareto,
+                dataset_imp_pareto.query("Porcentagem_acumulada_valor < 99 or Porcentagem_acumulada_quantidade < 99"),
                 "Pais_destino",
                 "Valor",
                 "Pais_destino",
                 "Porcentagem_acumulada_valor",
-                "Países",
-                "Vendas",
-                total_imp_pareto.Valor.mean()
+                "País",
+                "Valor",
+                 dataset_imp_pareto.Valor.mean()
             ),  use_container_width = True
         )
         st.plotly_chart(
@@ -243,13 +427,33 @@ def main():
             ),
             use_container_width = True
         )
-        '''
-            Para estimativa de **Regressão**foi utilizado para calcular o coeficientes do polinômio ajustado com a função polyfit do numpy para grau 1 que utiliza o método dos mínimos quadrados, que minimiza o erro quadrático.
-            - E = Σᵢ(yᵢ - p(xᵢ))²
-            - p(x) = p[0] * xᵈᵉᵍ + p[1] * xᵈᵉᵍ⁻¹ + ... + p[deg-1] * x + p[deg]
-        '''
 
-    with tab5:
+        st.markdown("---")
+        st.markdown(
+            """
+            <style>
+            .small-font {
+             font-size: 12px;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+        st.markdown(
+        '''<span class="small-font">
+            Para estimativa de Regressão foi utilizado para calcular o coeficientes do polinômio ajustado com a função polyfit do numpy para grau 1 que utiliza o método dos mínimos quadrados, que minimiza o erro quadrático.
+             </span>''',
+        unsafe_allow_html=True
+        )
+        st.markdown(
+        '<span class="small-font">E = Σᵢ(yᵢ - p(xᵢ))² </span>',
+        unsafe_allow_html=True
+        )
+        st.markdown(
+        '<span class="small-font">p(x) = p[0] * xᵈᵉᵍ + p[1] * xᵈᵉᵍ⁻¹ + ... + p[deg-1] * x + p[deg] </span>',
+        unsafe_allow_html=True
+        )
+    with tab6:
         '''
         ##### Valores financeiros dos países que mais impactam na exportação de vinhos
 
@@ -258,65 +462,60 @@ def main():
         st.markdown('###### Valor US$')
         st.plotly_chart(
             plot_regressao_estimada(
-                dataset_pib[dataset_pib['pais'].isin(exp_ordem_pareto)],
+                dataset_pib[dataset_pib['pais'].isin(ordem)],
                 'PIB dos países responsáveis por 80% da exportação',
                 float,
-                exp_ordem_pareto
+                ordem
             ),
             use_container_width = True
         )
         st.plotly_chart(
             plot_regressao_estimada(
-                dataset_inflation[dataset_inflation['pais'].isin(exp_ordem_pareto)],
+                dataset_inflation[dataset_inflation['pais'].isin(ordem)],
                 'Inflação dos países responsáveis por 80% da exportação',
                 float,
-                exp_ordem_pareto
+                ordem
             ),
             use_container_width = True
         )
         st.plotly_chart(
             plot_regressao_estimada(
-                dataset_trade[dataset_trade['pais'].isin(exp_ordem_pareto)],
+                dataset_trade[dataset_trade['pais'].isin(ordem)],
                 'Comércio internacional do países responsáveis por 80% da exportação',
                 float,
-                exp_ordem_pareto
+                ordem
             ),
             use_container_width = True
         )
-        st.plotly_chart(
-            plot_regressao_estimada(
-                dataset_population[dataset_population['pais'].isin(exp_ordem_pareto)],
-                'População dos países responsáveis por 80% da exportação',
-                int,
-                exp_ordem_pareto
-            ),
-            use_container_width = True
-        )
-        st.plotly_chart(
-            plot_regressao_estimada(
-                dataset_unemployment[dataset_unemployment['pais'].isin(exp_ordem_pareto)],
-                'Desemprego dos países responsáveis por 80% da exportação',
-                float,
-                exp_ordem_pareto
-            ),
-            use_container_width = True
-        )
-        st.plotly_chart(
-            plot_regressao_estimada(
-                dataset_wht[dataset_wht['pais'].isin(exp_ordem_pareto)],
-                'World Happiness dos países responsáveis por 80% da exportação',
-                int,
-                exp_ordem_pareto
-            ),
-            use_container_width = True
-        )
-        '''
-            Para estimativa de **Regressão** foi utilizado para calcular o coeficientes do polinômio ajustado com a função polyfit do numpy para grau 1 que utiliza o método dos mínimos quadrados, que minimiza o erro quadrático.
-            - E = Σᵢ(yᵢ - p(xᵢ))²
-            - p(x) = p[0] * xᵈᵉᵍ + p[1] * xᵈᵉᵍ⁻¹ + ... + p[deg-1] * x + p[deg]
-        '''
+        # st.plotly_chart(
+        #     plot_regressao_estimada(
+        #         dataset_population[dataset_population['pais'].isin(exp_ordem_pareto)],
+        #         'População dos países responsáveis por 80% da exportação',
+        #         int,
+        #         exp_ordem_pareto
+        #     ),
+        #     use_container_width = True
+        # )
+        # st.plotly_chart(
+        #     plot_regressao_estimada(
+        #         dataset_unemployment[dataset_unemployment['pais'].isin(exp_ordem_pareto)],
+        #         'Desemprego dos países responsáveis por 80% da exportação',
+        #         float,
+        #         exp_ordem_pareto
+        #     ),
+        #     use_container_width = True
+        # )
+        # st.plotly_chart(
+        #     plot_regressao_estimada(
+        #         dataset_wht[dataset_wht['pais'].isin(exp_ordem_pareto)],
+        #         'World Happiness dos países responsáveis por 80% da exportação',
+        #         int,
+        #         exp_ordem_pareto
+        #     ),
+        #     use_container_width = True
+        # )
 
-    with tab6:
+
         '''
         ##### Valores de consumo de álcool e somente vinho dos países que mais impactam na exportação de vinhos
 
@@ -326,23 +525,19 @@ def main():
         st.markdown('###### Valor US$')
         st.plotly_chart(
             plot_regressao_estimada(
-                dataset_consumo_vinho[dataset_consumo_vinho['pais'].isin(exp_ordem_pareto)],
+                dataset_consumo_vinho[dataset_consumo_vinho['pais'].isin(ordem)],
                 'Valores de consumo de vinho dos países responsáveis por 80% da exportação',
                 int,
-                exp_ordem_pareto
+                ordem
             ),
             use_container_width = True
         )
-        '''
-            Para estimativa de **Regressão** foi utilizado para calcular o coeficientes do polinômio ajustado com a função polyfit do numpy para grau 1 que utiliza o método dos mínimos quadrados, que minimiza o erro quadrático.
-            - E = Σᵢ(yᵢ - p(xᵢ))²
-            - p(x) = p[0] * xᵈᵉᵍ + p[1] * xᵈᵉᵍ⁻¹ + ... + p[deg-1] * x + p[deg]
-        '''
+    
         st.plotly_chart(
             plot_consumo_projetado(
-                dataset_consumo[dataset_consumo['pais'].isin(exp_ordem_pareto)],
+                dataset_consumo[dataset_consumo['pais'].isin(ordem)],
                 'Diferença entre a projeção do consumo de álcool dos países responsáveis por 80% da exportação',
-                exp_ordem_pareto
+                ordem
             ),
             use_container_width = True
         )
@@ -352,28 +547,54 @@ def main():
             Diferença corresponde ao valor da projeção para 2025 menos valor fato de 2020
         '''
 
+        st.markdown("---")
+        st.markdown(
+            """
+            <style>
+            .small-font {
+             font-size: 12px;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+        st.markdown(
+            '''<span class="small-font">
+            Para estimativa de Regressão foi utilizado para calcular o coeficientes do polinômio ajustado com a função polyfit do numpy para grau 1 que utiliza o método dos mínimos quadrados, que minimiza o erro quadrático.
+             </span>''',
+            unsafe_allow_html=True
+        )
+        st.markdown(
+            '<span class="small-font">E = Σᵢ(yᵢ - p(xᵢ))² </span>',
+        unsafe_allow_html=True
+        )
+        st.markdown(
+            '<span class="small-font">p(x) = p[0] * xᵈᵉᵍ + p[1] * xᵈᵉᵍ⁻¹ + ... + p[deg-1] * x + p[deg] </span>',
+        unsafe_allow_html=True
+        )
+
     with tab7:
+        
         '''
-        #### Resultados da analise
+        #### Resultados da análise
         
         Com a análise dos dados de exportação, principalmente financeiros, notamos que, apesar da crise global em 2019-2020 devido à Covid-19, observamos um cenário favorável para a economia em 2021, principalmente em alguns países na exportação de vinhos.
 
-        Dois países, Paraguai e Rússia, são responsáveis por 80% do volume exportado e quase 80% do montante total. Montamos uma lista dos países mais favoráveis a um aumento na exportação de vinhos brasileiros:
+        Três países, Rússia, Paraguai e Estados Unidos, são responsáveis por mais de 80% do volume exportado e aproximadamente 64% do montante total exportado entre 2007 e 2021. 
+        Montamos uma lista dos países mais favoráveis a um aumento na exportação de vinhos brasileiros:
 
-        - **Paraguai**
-        - **Rússia**
+        - **Paraguai**        
         - **Estados Unidos**
-        - **Reino Unido**
         - **China**
-        - **Países Baixos**
-        - **Alemanha**
         - **Haiti**
+        - **Reino Unido**
+        - **Rússia**
 
         Excluiremos os países analisados que são responsáveis pelo maior volume do qual importamos vinho, devido à correlação negativa entre importação e exportação, com exceção dos Estados Unidos que é um país com um mercado muito grande para exportação como a china.
 
         Um país com uma queda alta na exportação, mas que, apesar da Covid-19, está com o PIB em uma crescente histórica, inflação e desemprego baixos e com aumento no índice de comércio no último ano.
 
-        De acordo com a Organização Mundial da Saúde (OMS) e a Organização Internacional da Vinha e do Vinho (OIV), os Estados Unidos devem ter um aumento no consumo de bebidas alcoólicas até 2025, seguindo um aumento histórico no consumo de vinho.
+        De acordo com a Organização Mundial da Saúde (OMS) e a Organização Internacional da Vinha e do Vinho (OIV), os Estados Unidos devem ter um aumento no consumo de bebidas alcoólicas de até 25%, seguindo um aumento histórico no consumo de vinho.
 
         Graficamente, podemos comparar os dados de exportação e importação para visualizar a correlação:
         '''
@@ -405,7 +626,7 @@ def main():
 
         Chile, Uruguai e Argentina, apesar de importarem uma quantidade alta para o Brasil, seguem a correlação negativa entre importação e exportação.
 
-        A Rússia e o Reino Unido são países que têm valores de exportação de vinhos bastante semelhantes e, após a Covid-19, tiveram um aumento no PIB. Apesar de um aumento na inflação vindo de uma queda histórica, apresentam o mesmo índice de comércio exterior. De acordo com a OMS e a OIV, é projetado um aumento no consumo de álcool de até 2025, e ambos estão em crescimento no consumo de vinho nos últimos anos.
+        A Rússia e o Reino Unido são países que têm valores de exportação de vinhos bastante semelhantes e, após a Covid-19, tiveram um aumento no PIB. Apesar de um aumento na inflação vindo de uma queda histórica, apresentam o mesmo índice de comércio exterior. De acordo com a OMS e a OIV, é projetado um aumento no consumo de álcool de até 25%, e ambos estão em crescimento no consumo de vinho nos últimos anos.
 
         A China, apesar de ter uma queda na exportação de vinho em 2021, é um país com um mercado de grande potencial a ser explorado. Apresenta um aumento histórico no PIB e queda histórica na inflação, mesmo durante a Covid-19. De acordo com a OMS e a OIV, é projetado um aumento no consumo de álcool, porém com uma queda forte no consumo de vinho.
 
@@ -414,11 +635,32 @@ def main():
         O Haiti é um país que, apesar de ter um clima mais quente, assim como o Paraguai, teve o maior aumento na exportação de vinhos brasileiros. É o país com o maior aumento histórico do PIB da lista, mesmo com a Covid-19. Apesar de um aumento histórico na inflação, teve uma grande queda em 2021. De acordo com a OMS e a OIV, é projetado um aumento no consumo de álcool e um aumento histórico no consumo de vinho, apesar de uma queda no índice de comércio exterior. No entanto, mantém um aumento na exportação.
 
         '''
-        '''
-            Para estimativa de **Regressão** foi utilizado para calcular o coeficientes do polinômio ajustado com a função polyfit do numpy para grau 1 que utiliza o método dos mínimos quadrados, que minimiza o erro quadrático.
-            - E = Σᵢ(yᵢ - p(xᵢ))²
-            - p(x) = p[0] * xᵈᵉᵍ + p[1] * xᵈᵉᵍ⁻¹ + ... + p[deg-1] * x + p[deg]
-        '''
+    
+        st.markdown("---")
+        st.markdown(
+            """
+            <style>
+            .small-font {
+             font-size: 12px;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+        st.markdown(
+        '''<span class="small-font">
+            Para estimativa de Regressão foi utilizado para calcular o coeficientes do polinômio ajustado com a função polyfit do numpy para grau 1 que utiliza o método dos mínimos quadrados, que minimiza o erro quadrático.
+             </span>''',
+        unsafe_allow_html=True
+        )
+        st.markdown(
+        '<span class="small-font">E = Σᵢ(yᵢ - p(xᵢ))² </span>',
+        unsafe_allow_html=True
+        )
+        st.markdown(
+        '<span class="small-font">p(x) = p[0] * xᵈᵉᵍ + p[1] * xᵈᵉᵍ⁻¹ + ... + p[deg-1] * x + p[deg] </span>',
+        unsafe_allow_html=True
+        )
 
 if __name__ == "__main__":
     main()

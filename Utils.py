@@ -181,6 +181,7 @@ def plot_consumo_projetado(data, title, country_order=None):
     
     consumo.update_layout(
         title=title,
+        xaxis_title="Países",
         barmode="group"
     )
     
@@ -241,6 +242,96 @@ def plot_comparacao(data1, data2, name1, name2, title, data_type, country):
             title_standoff=10,
             tickfont=dict(size=8),
             title_font=dict(size=10)
+        )
+
+    return regressao
+
+def plot_per_anual(data):  
+    
+    cores = {
+        'Rússia': 'rgb(255, 0, 0)',     # Vermelho
+        'Paraguai': 'rgb(200, 162, 200)',   # Lilás
+        'Estados Unidos': 'rgb(0, 0, 255)',     # Azul
+        'Reino Unido':'rgb(128, 0, 128)',   # Roxo
+        'China': 'rgb(255, 255, 0)',   # Amarelo
+        'Outros': 'rgb(128, 128, 128)'      # Cinza
+    }
+    data_percent=data.mul(100).div(data.sum(axis=1),axis=0)
+
+    fig = go.Figure()
+
+    for coluna in data.columns:
+        fig.add_trace(go.Bar(
+            x=data.index,
+            y=data[coluna],
+            name=coluna,
+            marker=dict(color=cores[coluna]),
+            text=data_percent[coluna].apply(lambda x: f'{x:.1f}%'),  
+            textposition='auto' 
+        ))
+
+    fig.update_layout(
+        title='Percentual de exportação anual dos países com maior influência',
+        barmode='stack',
+        legend=dict(x=1, y=1, orientation='v'),
+        xaxis=dict(tickmode='linear'),
+        height=800,
+        yaxis_title='Valor (em milhões de U$)'
+        
+    )
+    return fig
+
+def plot_regressao1(data, title, data_type,country_order=None):
+
+    # if country_order is not None:
+    #     data = data.set_index('pais').loc[country_order].reset_index()
+
+    regressao =go.Figure()
+    regressao.update_layout(
+        title=title,
+        width=600,
+        height=300,
+        showlegend=False,
+        colorway = [
+            "#ADD8E6",   # LightBlue
+            "#90EE90",   # LightGreen
+            "#FFA500",   # Orange
+            "#E6E6FA",   # Lavender
+            "#D2B48C",   # Tan
+            "#FF00FF",   # Magenta
+            "#00FFFF",   # Cyan
+            "#FFFFE0",   # LightYellow
+            "#E0FFFF",   # LightCyan
+            "#FFB6C1",   # LightPink
+            "#D3D3D3",   # LightGray
+            "#FFE4E1",   # MistyRose
+            "#98FB98",   # PaleGreen
+            "#E0FFFF",   # LightCyan
+            "#FFF0F5",   # LavenderBlush
+            "#FFDAB9",   # PeachPuff
+            "#AFEEEE",   # PaleTurquoise
+            "#FFC0CB",   # Pink
+            "#F0FFF0",   # Honeydew
+            "#FFE4B5",   # Moccasin
+            "#FFFFF0"    # Ivory
+        ]
+    )
+
+    for i, pais in enumerate(data.pais):
+        trace = go.Scatter(x=data.columns[1:], y=data.iloc[i, 1:], name=pais)
+        x = np.array(data.columns[1:], dtype=data_type)
+        y = np.array(data.iloc[i, 1:], dtype=data_type)
+        coef = np.polyfit(x, y, 1)
+        line = coef[1] + coef[0] * x
+        reg = go.Scatter(x=x, y=line, mode='lines', name='Regressão', line=dict(color='red'))
+        regressao.add_trace(reg)
+        regressao.add_trace(trace)
+        regressao.update_xaxes(
+            title_text=pais,
+            title_standoff=10,
+            tickfont=dict(size=8),
+            title_font=dict(size=10),
+            tickvals=data.columns[1:]
         )
 
     return regressao

@@ -161,7 +161,7 @@ def main():
             unsafe_allow_html=True
         )
         df = pd.DataFrame(dataset_exp)
-        df.rename(columns={'Pais_destino': 'Destino', 'Pais_origem': 'Origem', 'Quantidade': 'Quantidade L)', 'Valor':'Valor (US$)'}, inplace=True)
+        df.rename(columns={'Pais_destino': 'Destino', 'Pais_origem': 'Origem', 'Quantidade': 'Quantidade (L)', 'Valor':'Valor (US$)'}, inplace=True)
         
         st.write("\n")
         st.markdown('##### Dados sobre exportação de vinhos no período')
@@ -523,7 +523,7 @@ def main():
         st.plotly_chart(
             plot_regressao_estimada(
                 dataset_pib[dataset_pib['pais'].isin(ordem)],
-                'PIB',
+                'PIB (US$)',
                 float,
                 ordem
             ),
@@ -536,7 +536,7 @@ def main():
         st.plotly_chart(
             plot_regressao_estimada(
                 dataset_inflation[dataset_inflation['pais'].isin(ordem)],
-                'Inflação',
+                'Inflação (%)',
                 float,
                 ordem
             ),
@@ -551,7 +551,7 @@ def main():
         st.plotly_chart(
             plot_regressao_estimada(
                 dataset_trade[dataset_trade['pais'].isin(ordem)],
-                'Comércio internacional',
+                'Índice de Comércio internacional',
                 float,
                 ordem
             ),
@@ -571,11 +571,10 @@ def main():
         ##### Valores de consumo de vinho e álcool dos países que mais impactam na exportação de vinhos
         '''
 
-        st.markdown('###### Valor US$')
         st.plotly_chart(
             plot_regressao_estimada(
                 dataset_consumo_vinho[dataset_consumo_vinho['pais'].isin(ordem)],
-                'Consumo de vinho',
+                'Consumo de vinho per capita (L)',
                 int,
                 ordem
             ),
@@ -592,14 +591,14 @@ def main():
         st.plotly_chart(
             plot_consumo_projetado(
                 dataset_consumo[dataset_consumo['pais'].isin(ordem)],
-                'Diferença entre a projeção e o consumo atual de álcool',
+                'Diferença entre valor projetado para 2025 e valor real em 2020 do consumo de álcool (L)',
                 ordem
             ),
             use_container_width = True
         )
 
         '''
-        As projeções acima foram feitas com Dados disponíveis no **World Health Organization**, que mostram a diferença entre o valor da projeção para 2025 e valor fato de observado em 2020.
+        As projeções acima foram feitas com dados disponíveis no **World Health Organization**, que mostram a diferença entre o valor da projeção para 2025 e valor real observado em 2020.
         Analisando os dados de projeção de consumo de álcool para 2025 em conjunto com os de consumo de vinho, espera-se um aumento no consumo de vinho para 2025.
         
         

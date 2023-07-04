@@ -3,7 +3,7 @@
 
 > Para visualizar online
 >
-> <https://techchallengefase1.streamlit.app>
+>> <https://techchallengefase1.streamlit.app>
 > 
 > Para visualizar as analises em localhost rodar
 >

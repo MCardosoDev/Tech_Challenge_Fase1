@@ -1,75 +1,74 @@
 #%%
 import pandas as pd
 import streamlit as st
-import locale
 from Utils import plot_pareto, plot_regressao_estimada, plot_consumo_projetado, plot_comparacao, plot_per_anual, plot_regressao1
 
 #%%
-dataset_exp = pd.read_csv('Data/ExpVinhoPeriodo.csv', sep=',')
+dataset_exp = pd.read_csv('ExpVinhoPeriodo.csv', sep=',')
 dataset_exp = dataset_exp.sort_values('Valor', ascending=False)
 dataset_exp.head(10)
 
 #%%
-dataset_imp = pd.read_csv('Data/ImpVinhosPeriodo.csv', sep=',')
+dataset_imp = pd.read_csv('ImpVinhosPeriodo.csv', sep=',')
 dataset_imp = dataset_imp.sort_values('Valor', ascending=False)
 dataset_imp.head(10)
 
 #%%
-dataset_exp_pareto = pd.read_csv('Data/ExpPareto.csv', sep=',')
+dataset_exp_pareto = pd.read_csv('ExpPareto.csv', sep=',')
 dataset_exp_pareto.head(10)
 
 #%%
-dataset_Qexp_pareto = pd.read_csv('Data/QExpPareto.csv', sep=',')
+dataset_Qexp_pareto = pd.read_csv('QExpPareto.csv', sep=',')
 dataset_Qexp_pareto.head(10)
 
 #%%
-dataset_exp_pareto_5 = pd.read_csv('Data/ExpPareto5.csv', sep=',')
+dataset_exp_pareto_5 = pd.read_csv('ExpPareto5.csv', sep=',')
 dataset_exp_pareto_5.head(10)
 
 #%%
-dataset_anos = pd.read_csv('Data/PorcentAnual.csv', sep=',',index_col=0)
+dataset_anos = pd.read_csv('PorcentAnual.csv', sep=',',index_col=0)
 #%%
-dataset_imp_pareto = pd.read_csv('Data/ImpPareto.csv', sep=',')
+dataset_imp_pareto = pd.read_csv('ImpPareto.csv', sep=',')
 dataset_imp_pareto.head(10)
 
 #%%
-dataset_pib = pd.read_csv('Data/Pib.csv', sep=',')
+dataset_pib = pd.read_csv('Pib.csv', sep=',')
 dataset_pib.head(10)
 
 #%%
-dataset_inflation = pd.read_csv('Data/Inflation.csv', sep=',')
+dataset_inflation = pd.read_csv('Inflation.csv', sep=',')
 dataset_inflation.head(10)
 
 #%%
-dataset_trade = pd.read_csv('Data/Trade.csv', sep=',')
+dataset_trade = pd.read_csv('Trade.csv', sep=',')
 dataset_trade.head(10)
 
 #%%
-dataset_population = pd.read_csv('Data/Population.csv', sep=',')
+dataset_population = pd.read_csv('Population.csv', sep=',')
 dataset_population.head(10)
 
 #%%
-dataset_unemployment = pd.read_csv('Data/Unemployment.csv', sep=',')
+dataset_unemployment = pd.read_csv('Unemployment.csv', sep=',')
 dataset_unemployment.head(10)
 
 #%%
-dataset_exportacao = pd.read_csv('Data/Exportacao.csv', sep=',')
+dataset_exportacao = pd.read_csv('Exportacao.csv', sep=',')
 dataset_exportacao.head(10)
 
 #%%
-dataset_importacao = pd.read_csv('Data/Importacao.csv', sep=',')
+dataset_importacao = pd.read_csv('Importacao.csv', sep=',')
 dataset_importacao.head(10)
 
 #%%
-dataset_consumo = pd.read_csv('Data/Consumo.csv', sep=',')
+dataset_consumo = pd.read_csv('Consumo.csv', sep=',')
 dataset_consumo.head(10)
 
 #%%
-dataset_consumo_vinho = pd.read_csv('Data/ConsumoVinho.csv', sep=',')
+dataset_consumo_vinho = pd.read_csv('ConsumoVinho.csv', sep=',')
 dataset_consumo_vinho.head(10)
 
 #%%
-dataset_wht = pd.read_csv('Data/wht.csv', sep=',')
+dataset_wht = pd.read_csv('wht.csv', sep=',')
 dataset_wht.head(10)
 
 #%%
@@ -159,14 +158,13 @@ def main():
         '''
 
     with tab1:
-        locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
-        valor = locale.currency(dataset_exp.Valor.sum(), grouping=True, symbol=True)
-        quantidade = locale.format_string("%.2f", dataset_exp.Quantidade.sum(), grouping=True)
+        valor = "{:,.2f}".format(dataset_exp.Valor.sum())
+        quantidade = "{:,.2f}".format(dataset_exp.Quantidade.sum())
         st.markdown('***Valores totais de exportação de vinhos no período de 15 anos entre 2007 a 2021***')
         st.markdown(
             f"""
             <div style="padding: 20px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); background-color: #f5f5f5; color: #000000; text-align: center;">
-                <p style="font-size: 24px; font-weight: bold; display: inline; margin-right: 400px;">{valor}</p>
+                <p style="font-size: 24px; font-weight: bold; display: inline; margin-right: 400px;">US$ {valor}</p>
                 <p style="font-size: 24px; font-weight: bold; display: inline;">{quantidade} L</p>
             </div>
             """,

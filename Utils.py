@@ -246,8 +246,7 @@ def plot_comparacao(data1, data2, name1, name2, title, data_type, country):
 
     return regressao
 
-def plot_per_anual(data):  
-    
+def plot_per_anual(data):
     cores = {
         'Rússia': 'rgb(255, 0, 0)',     # Vermelho
         'Paraguai': 'rgb(200, 162, 200)',   # Lilás
@@ -282,7 +281,6 @@ def plot_per_anual(data):
     return fig
 
 def plot_regressao1(data, title, data_type,country_order=None):
-
     # if country_order is not None:
     #     data = data.set_index('pais').loc[country_order].reset_index()
 

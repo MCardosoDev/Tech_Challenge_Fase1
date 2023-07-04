@@ -1,7 +1,8 @@
 #%%
 import pandas as pd
 import streamlit as st
-from Utils import plot_pareto, plot_regressao_estimada, plot_consumo_projetado, plot_comparacao, plot_per_anual, plot_regressao1
+from Utils import plot_pareto, plot_regressao_estimada, plot_consumo_projetado, plot_comparacao
+from Utils import plot_per_anual, plot_regressao1
 
 #%%
 dataset_exp = pd.read_csv('ExpVinhoPeriodo.csv', sep=',')

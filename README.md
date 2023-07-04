@@ -1,15 +1,15 @@
 # Tech_Challenge_Fase1
-### Analise de dados de exportação de vinhos do Brasil para outros países.
+### Análise de dados de exportação de vinhos do Brasil para outros países.
 
 > Para visualizar online
 >
 >> <https://techchallengefase1.streamlit.app>
 > 
-> Para visualizar as analises em localhost rodar
+> Para visualizar as análises em localhost rodar
 >
 >> **streamlit run Tech_Challenge.py**
 >
-> Caso problemas com os arquivos de dados ao rodar as células do Tech_Challenge.ipynb serão gerados os arquivos necessários para o streamlit
+> Caso problemas com os arquivos de dados, ao rodar as células do Tech_Challenge.ipynb serão gerados os arquivos necessários para o streamlit
 >
 
 ## Libs

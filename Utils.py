@@ -275,15 +275,13 @@ def plot_per_anual(data):
         legend=dict(x=1, y=1, orientation='v'),
         xaxis=dict(tickmode='linear'),
         height=800,
-        yaxis_title='Valor (em milhões de U$)'
+        yaxis_title='Valor (em milhões de US$)'
         
     )
     return fig
 
 def plot_regressao1(data, title, data_type,country_order=None):
-    # if country_order is not None:
-    #     data = data.set_index('pais').loc[country_order].reset_index()
-
+ 
     regressao =go.Figure()
     regressao.update_layout(
         title=title,

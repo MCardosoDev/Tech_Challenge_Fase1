@@ -83,12 +83,9 @@ dataset_exp.Valor.sum()
 dataset_exp.Quantidade.sum()
 
 #%%
-total_exp_pareto = dataset_exp_pareto.query("Porcentagem_acumulada_valor < 81")
+total_exp_pareto = dataset_exp_pareto.query("Porcentagem_acumulada_valor < 75")
 total_exp_pareto.head(10)
 
-#%%
-# total_Qexp_pareto = dataset_Qexp_pareto.query("Porcentagem_acumulada_quantidade < 92")
-# total_Qexp_pareto.head(10)
 #%%
 total_imp_pareto = dataset_imp_pareto.query("Porcentagem_acumulada_valor < 99 or Porcentagem_acumulada_quantidade < 99")
 total_imp_pareto.head(10)
@@ -118,7 +115,7 @@ def main():
         '''
         ## Análise dos Dados para Melhorar a Exportação de Vinhos
 
-        Esta análise tem como objetivo utilizar os dados disponíveis sobre a exportação de vinhos, dados econômicos, demográficos e o ranking de felicidade da população para fornecer insights sobre como melhorar a exportação de vinhos para diferentes países. Os dados foram obtidos de fontes confiáveis, como a Embrapa (Empresa Brasileira de Pesquisa Agropecuária), o Banco Mundial e o Relatório Mundial de Felicidade.
+        Esta análise tem como objetivo utilizar os dados disponíveis sobre a exportação de vinhos, dados econômicos e sobre consumo de vinho e de álcool, com objetivo de fornecer insights sobre como melhorar a exportação de vinhos para diferentes países. Os dados foram obtidos de fontes confiáveis, como a Embrapa (Empresa Brasileira de Pesquisa Agropecuária), o Banco Mundial, Organização Mundial de Sáude e Organização Internacional da Vinha e do Vinho.
         
         ## Dados Utilizados
 
@@ -126,7 +123,7 @@ def main():
 
             - Link: [Exportação de Vinhos](http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_06)
 
-        2. **Dados Econômicos e Demográficos** - Para entender o contexto econômico e demográfico dos países, foram coletados os seguintes dados:
+        2. **Dados Econômicos** - Para entender o contexto econômico dos países, foram coletados os seguintes dados:
 
             - **Produto Interno Bruto (PIB)**: O PIB é uma medida amplamente utilizada para avaliar o tamanho e o desempenho econômico de um país.
                 - Link: [PIB dos Países](https://data.worldbank.org/indicator/NY.GDP.MKTP.CD)
@@ -136,30 +133,18 @@ def main():
 
             - **Proporção do Comércio Internacional**: Essa proporção indica a importância do comércio internacional em relação ao PIB de um país, o que pode indicar o quão aberto ele é para o comércio exterior.
                 - Link: [Proporção do Comércio Internacional em relação ao PIB dos Países](https://data.worldbank.org/indicator/NE.TRD.GNFS.ZS)
-        '''
-
-        # - **População Total**: O número total de pessoas em um país é relevante para entender o potencial mercado consumidor e a demanda por vinhos.
-        #     - Link: [População Total dos Países](https://data.worldbank.org/indicator/SP.POP.TOTL)
-
-        # - **Taxa de Desemprego**: A taxa de desemprego é um indicador importante para avaliar a situação econômica e a capacidade de compra dos consumidores em um país.
-        #     - Link: [Taxa de Desemprego Total dos Países](https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS)
-        
-        # 3. **Ranking de Felicidade da População** - O ranking de felicidade é um indicador que avalia o bem-estar e a satisfação da população em diferentes países.
-
-        # - Link: [World Happiness Report](https://www.kaggle.com/datasets/unsdsn/world-happiness)
-        
-        '''
-        3. **Consumo de Álcool** - Os dados sobre o consumo de álcool per capita foram obtidos da Organização Mundial da Saúde (OMS). Esses dados fornecem informações sobre a quantidade de álcool (incluindo registro e não registro) consumida por pessoa com idade igual ou superior a 15 anos em diferentes países, juntamente com projeções com intervalo de confiança de 95% para os anos de 2020 e 2025. Isso pode ajudar a entender os hábitos de consumo de bebidas alcoólicas e o potencial de mercado para vinhos em cada país.
+      
+        3. **Consumo de Álcool** - Os dados sobre o consumo de álcool per capita foram obtidos da Organização Mundial da Saúde (WHO/OMS). Esses dados fornecem informações sobre a quantidade de álcool (incluindo registro e não registro) consumida por pessoa com idade igual ou superior a 15 anos em diferentes países, juntamente com projeções com intervalo de confiança de 95% para os anos de 2020 e 2025. Isso pode ajudar a entender os hábitos de consumo de bebidas alcoólicas e o potencial de mercado para vinhos em cada país.
 
            - Link: [WHO](https://www.who.int/data/gho/data/indicators/indicator-details/GHO/alcohol-total-(recorded-unrecorded)-per-capita-(15-)-consumption-with-95-ci-projections-to-2020-and-2025)
 
-        4. **Dados sobre o consumo de vinho** - A OIV fornece estatísticas abrangentes sobre o consumo de vinho em diferentes países. Esses dados podem incluir informações sobre o consumo per capita, o volume total de consumo, entre outros aspectos relevantes para entender o mercado do vinho em cada país.
+        4. **Dados sobre o consumo de vinho** - A Organização Internacional da Vinha e do Vinho (OIV) fornece estatísticas abrangentes sobre o consumo de vinho em diferentes países. Esses dados podem incluir informações sobre o consumo per capita, o volume total de consumo, entre outros aspectos relevantes para entender o mercado do vinho em cada país.
 
            - Link: [OIV](https://www.oiv.int/en/statistics)
 
         ## Análise e Insights
 
-        Com base nos dados coletados, é possível realizar uma análise detalhada para melhorar e exportação de vinhos.
+        Com base nos dados coletados, é possível realizar uma análise detalhada para melhorar a exportação de vinhos.
         '''
 
     with tab1:
@@ -176,9 +161,12 @@ def main():
             unsafe_allow_html=True
         )
         df = pd.DataFrame(dataset_exp)
+        df.rename(columns={'Pais_destino': 'Destino', 'Pais_origem': 'Origem', 'Quantidade': 'Quantidade L)', 'Valor':'Valor (US$)'}, inplace=True)
+        
         st.write("\n")
         st.markdown('##### Dados sobre exportação de vinhos no período')
         st.dataframe(df, use_container_width=True)
+        #st.table(dataset_exp.rename(columns=colunas_personalizadas),use_container_width=True)
 
     with tab2:
 
@@ -225,17 +213,12 @@ def main():
         
         '''
             Ao observar o gráfico para valor total de vendas com a exportação de vinho nesse mesmo período, percebe-se que o Paraguai ultrapassa o percentual da Rússia, e
-            que Reino Unido passam a ter maior representatividade no percentual. O que indica que nesse país o vinho brasileiro é exportado por um valor superior.
+            que Reino Unido passa a ter maior representatividade no percentual. O que indica que, nesse país, o vinho brasileiro é exportado por um valor superior.
         
         '''
         
     with tab3:
-        # '''
-        # ##### Valores por país para os países que mais impactam na exportação de vinhos
-
-        # ***Valores correspondentes ao período de 15 anos entre 2007 a 2021***
-        # '''
-    
+         
         st.plotly_chart(
             plot_per_anual(dataset_anos),
             use_container_width = True
@@ -250,7 +233,7 @@ def main():
         #### Os picos de exportação em 2009 e 2013
         Observando a altura total das barras, constata-se que houve dois picos, um no ano de 2009 e outro no ano de 2013. Avaliando o percentual de influência dos países na exportação, 
         percebe-se que ambos os picos ocorreram devido ao crescimento das vendas para a **Rússia**. \n
-        Analisando abaixo o comportamento dos valores exportados para a Rússia ao longo dos anos, é possível notar esses picos. Contudo, após 2013, as vendas para a Rússia caíram bruscamente.
+        Analisando abaixo o comportamento dos valores exportados para a Rússia ao longo dos anos, é possível notar esses picos. Contudo, após 2013, as vendas caíram bruscamente.
         '''
 
         st.plotly_chart(
@@ -263,14 +246,14 @@ def main():
         )
 
         '''
-        "Após 18 anos de negociações, a adesão da Rússia à OMC foi aceita em 2011."
+        O aumento das exportações para Rússia entre 2011 e 2013 pode ser uma consequência da sua adesão à OMC. Pois, _"Após 18 anos de negociações, a adesão da Rússia à OMC foi aceita em 2011"_.
         '''
         st.markdown(
         '<span class="small-font">Fonte: https://g1.globo.com/economia/noticia/2011/11/russia-entra-na-omc-apos-18-anos-de-negociacoes.html',
         unsafe_allow_html=True
         )
         '''
-        "Após a anexação da Crimeia em março de 2014 e o envolvimento da Rússia no conflito em curso na Ucrânia, os Estados Unidos, a UE, o Canadá, o Japão e outros países impuseram sanções aos setores financeiro, energético e de defesa da Rússia."
+        Já a queda em 2014 pode ser explicada pelo embargos que a Rússia vem sofrendo. _"Após a anexação da Crimeia em março de 2014 e o envolvimento da Rússia no conflito em curso na Ucrânia, os Estados Unidos, a UE, o Canadá, o Japão e outros países impuseram sanções aos setores financeiro, energético e de defesa da Rússia."_
         '''
         st.markdown(
         '<span class="small-font">Fonte: https://g1.globo.com/bom-dia-brasil/noticia/2014/03/ue-e-eua-ampliam-sancoes-contra-russia-apos-anexacao-da-crimeia.html',
@@ -278,16 +261,22 @@ def main():
         )
         '''
         #### Queda no total de exportações em 2010
-        Analisando abaixo os valores para os principais exportadores ao longo dos anos, juntamente com uma linha de tendência. Percebe-se que a crise global impactou negativamente as vendas, 
+        Em 2008, ocorreu uma crise financeira que foi um evento significativo que afetou a economia global. _"A crise financeira de 2008 ocorreu devido a uma bolha imobiliária nos Estados Unidos, causada pelo aumento nos valores imobiliários, que não foi acompanhado por um aumento de renda da população."_
+        '''
+        st.markdown(
+        '<span class="small-font">Fonte: https://www.politize.com.br/crise-financeira-de-2008/',
+        unsafe_allow_html=True
+        )
+        '''
+        Analisando abaixo os valores para os principais exportadores ao longo dos anos, juntamente com linhas de tendência. Percebe-se que a crise global impactou negativamente as exportações, 
         exceto para Rússia e China, que tiveram alta em 2009.\n
-        "A crise financeira de 2008 ocorreu devido a uma bolha imobiliária nos Estados Unidos, causada pelo aumento nos valores imobiliários, que não foi acompanhado por um aumento de renda da população."
+       
         '''
 
-        # st.markdown('###### Valor (US$)')
         st.plotly_chart(
             plot_regressao_estimada(
                 dataset_exportacao[dataset_exportacao['pais'].isin(exp_ordem_pareto)],
-                'Valores de exportação para os principais países (US$) no período',
+                'Valores de exportação para os principais países no período (US$)',
                 int,
                 exp_ordem_pareto
 
@@ -296,14 +285,14 @@ def main():
         )
 
         '''
-        Como a alta exportação para China e Rússia, o mercado de exportação de vinho brasileiro não refletiu a crise em 2009.
-        Entretanto em 2010 as exportações também caíram para esses países, resultando na queda dos valores em 2010.\n
+        Com a alta exportação para China e Rússia, o mercado de exportação de vinho brasileiro não refletiu a crise em 2009.
+        Entretanto, em 2010 as exportações também caíram para esses países, resultando na queda dos valores em 2010.\n
         
         #### Crescimento das exportações para o Paraguai
         Nos gráficos acima também é possível perceber que as exportações para **Paraguai** vêm crescendo, principalmente a partir de 2014, ano no qual ultrapassa a Rússia como país 
         que mais importa vinho do Brasil. \n
-        "Com o sucesso dos vinhos doces e que a maior parte do mercado é de vinhos econômicos o vinho espumante brasileiro é considerado como um produto de boa qualidade e com demanda crescente, principalmente na fronteira 
-        e existe a possibilidade de escalar os hábitos e o paladar de um segmento médio Premium que já consome vinhos brasileiros com frequência."\n
+        O interesse no Paraguai pelo vinho brasileiro vem aumentando. _"Com o sucesso dos vinhos doces e que a maior parte do mercado é de vinhos econômicos o vinho espumante brasileiro é considerado como um produto de boa qualidade e com demanda crescente, principalmente na fronteira 
+        e existe a possibilidade de escalar os hábitos e o paladar de um segmento médio Premium que já consome vinhos brasileiros com frequência."_
         '''
 
         st.markdown(
@@ -320,15 +309,10 @@ def main():
         )
 
         '''
-        Outras tendências identificadas são: a de aumento das exportações para **China** e a de estabilidade para **Estados Unidos** e **Reino Unido**.\n
-        "O total das exportações(geral) do Brasil para a China em 2022 representou mais que o dobro do total embarcado para os Estados Unidos, o segundo maior destino das exportações brasileiras no ano passado."
-       
+        Essa tendência de aumento do interesse no vinho brasileiro por parte do Paraguai pode trazer benefícios significativos para ambos os países. Sendo positivo para o Brasil fortalecer as relações com esse país.\n\n
+        Outras tendências identificadas são: a de aumento das exportações para **China** e a de estabilidade para **Estados Unidos** e **Reino Unido**.
         '''
 
-        st.markdown(
-        '<span class="small-font">Fonte: https://investnews.com.br/economia/participacao-da-china-na-exportacao-do-brasil-cresceu-56-em-10-anos/#:~:text=As%20exportações%20do%20Brasil%20para,o%20Ministério%20das%20Relações%20Exteriores.</span>',
-        unsafe_allow_html=True
-        )
         st.plotly_chart(
             plot_regressao1(
                 dataset_exportacao.set_index('pais').query("pais=='China'").reset_index(),
@@ -336,6 +320,13 @@ def main():
                 int
             ),
             use_container_width = True
+        )
+        '''
+        Apesar da China ficar atrás dos Estados Unidos no valor exportado, sua tendência de crescimento a torna um mercado interessante, e deve-se considerar investir mais nas exportações para esse país. _"O total das exportações (geral) do Brasil para a China em 2022 representou mais que o dobro do total embarcado para os Estados Unidos, o segundo maior destino das exportações brasileiras no ano passado."_
+        '''
+        st.markdown(
+        '<span class="small-font">Fonte: https://investnews.com.br/economia/participacao-da-china-na-exportacao-do-brasil-cresceu-56-em-10-anos/#:~:text=As%20exportações%20do%20Brasil%20para,o%20Ministério%20das%20Relações%20Exteriores.</span>',
+        unsafe_allow_html=True
         )
         st.markdown("---")
         st.markdown(
@@ -406,8 +397,8 @@ def main():
         Observa-se que os valores das exportações para o Haiti apresentou uma grande crescente a partir de 2009. Sendo assim, Haiti é um país de que merece atenção dos investidores com 
         grande potencial de exportação para os próximos anos.
 
-        "Cada vez mais os empresários brasileiros começam a considerar as exportações como uma decisão estratégica importante para o desenvolvimento dos seus negócios.
-        Os principais produtos brasileiros exportados para Haiti são em primeiro lugar - Produtos Alimentícios e Animais Vivos."
+        _"Cada vez mais os empresários brasileiros começam a considerar as exportações como uma decisão estratégica importante para o desenvolvimento dos seus negócios.
+        Os principais produtos brasileiros exportados para Haiti são em primeiro lugar - Produtos Alimentícios e Animais Vivos."_
         '''
 
         st.markdown(
@@ -461,37 +452,39 @@ def main():
                  dataset_imp_pareto.Valor.mean()
             ),  use_container_width = True
         )
+        '''
+        Analisando os dados sobre as importações no mesmo período através do gráfico de pareto acima, identificam-se os países dos quais mais importamos vinho. 
+        '''
         st.plotly_chart(
             plot_regressao_estimada(
                 dataset_importacao[dataset_importacao['pais'].isin(imp_ordem_pareto)],
-                'Valores de importação para os principais países',
+                'Valores de importação para os principais países (US$)',
                 int,
                 imp_ordem_pareto
             ),
             use_container_width = True
         )
-
+       
         '''
-        Com a analise os dados sobre as importações no período e os países dos quais mais importamos vinho através da analise de Pareto. 
-        E a analise individual sobre a importação ao longo do período.\n
-        Foram importantes para entender a relação entre a importação e exportação desses países e que a importação tem uma correlação negativa com a exportação. 
-        Consumimos mais vinhos desses países do que eles consomes os vinhos brasileiro, principalmente pela tradição e qualidade na fabricação.\n
-        Dessa lista vale aprofundar a analise no Estados Unidos que mesmo estando como um país responsável pela maior parte da importação, 
-        é uma país com uma relevância importante da exportação e um mercado muito importante para apenas ser retirado da analise final.
+        A análise individual da importação desses países ao longo do período é importante para compreender a relação entre importação e exportação, revelando uma correlação negativa entre esses dois fluxos.
+        No Brasil consome-se mais vinhos desses países do que eles consomem vinhos brasileiros, o que pode ser atribuído principalmente à tradição e qualidade na fabricação deles.\n
+        Dessa lista, vale aprofundar a análise para os Estados Unidos. Apesar de ser um país responsável uma parte das importações, também desempenha um papel significativo como destino de exportação. 
+        O mercado dos Estados Unidos é tão essencial que seria inadequado excluí-lo da análise final.
         '''
-
         st.plotly_chart(
             plot_comparacao(
                 dataset_exportacao.query("pais == 'Estados Unidos'"),
                 dataset_importacao.query("pais == 'Estados Unidos'"),
                 'Exportação',
                 'Importação',
-                'Regressão de Exportação e Importação Estados Unidos',
+                'Valores de Exportação e Importação Estados Unidos (US$)',
                 int,
                 'Estados Unidos'
             ),
             use_container_width = True
         )
+
+        
         st.markdown("---")
         st.markdown(
             """
@@ -518,20 +511,15 @@ def main():
         unsafe_allow_html=True
         )
     with tab6:
-
+        st.markdown('### Dados Econômicos - Banco Mundial')
         '''
-        ##### Valores analisados dos países que mais impactam na exportação de vinhos
+        ##### Dados dos países que mais impactam na exportação de vinhos
 
         ***Valores correspondentes ao período de 15 anos entre 2007 a 2021***
         '''
 
-        st.markdown('### Econômicos - Banco Mundial')
+       
         st.markdown('###### Valor US$')
-
-        '''
-        Notamos que todos tem uma linha de crescimento no PIB
-        '''
-
         st.plotly_chart(
             plot_regressao_estimada(
                 dataset_pib[dataset_pib['pais'].isin(ordem)],
@@ -543,9 +531,8 @@ def main():
         )
 
         '''
-        Em relação a inflação com exceção do Haiti que tem um crescimento histórico mas com uma queda no ultimo ano, temos uma linha de queda histórica nos países mesmo com um aumento após o Covid19.
+        Avaliando o PIB desses países, nota-se que todos têm uma linha de crescimento nesse período. O que é positivo para o cenário futuro de exportações.
         '''
-
         st.plotly_chart(
             plot_regressao_estimada(
                 dataset_inflation[dataset_inflation['pais'].isin(ordem)],
@@ -556,10 +543,11 @@ def main():
             use_container_width = True
         )
 
+        '''        
+        Em relação à inflação, observa-se uma tendência de queda nos países, com exceção do Haiti. Contudo no último ano, o Haiti também registrou queda. 
+        Embora tenha havido um aumento após a pandemia de Covid-19, a maioria dos países da lista tem demonstrado uma trajetória decrescente da inflação ao longo do tempo. 
+        O que é um bom indicador para as perspectivas de vendas futuras. 
         '''
-        Notamos que o período do Covid19 impactou na relação comercial entre países mas 2021 notamos uma melhora em alguns países, mesmo Reino Unido e Haiti que não notamos o aumento ele vem de um crescimento hatórico indicando que podemos esperar uma melhora também.
-        '''
-
         st.plotly_chart(
             plot_regressao_estimada(
                 dataset_trade[dataset_trade['pais'].isin(ordem)],
@@ -568,41 +556,19 @@ def main():
                 ordem
             ),
             use_container_width = True
-        )
-        # st.plotly_chart(
-        #     plot_regressao_estimada(
-        #         dataset_population[dataset_population['pais'].isin(exp_ordem_pareto)],
-        #         'População dos países responsáveis por 80% da exportação',
-        #         int,
-        #         exp_ordem_pareto
-        #     ),
-        #     use_container_width = True
-        # )
-        # st.plotly_chart(
-        #     plot_regressao_estimada(
-        #         dataset_unemployment[dataset_unemployment['pais'].isin(exp_ordem_pareto)],
-        #         'Desemprego dos países responsáveis por 80% da exportação',
-        #         float,
-        #         exp_ordem_pareto
-        #     ),
-        #     use_container_width = True
-        # )
-        # st.plotly_chart(
-        #     plot_regressao_estimada(
-        #         dataset_wht[dataset_wht['pais'].isin(exp_ordem_pareto)],
-        #         'World Happiness dos países responsáveis por 80% da exportação',
-        #         int,
-        #         exp_ordem_pareto
-        #     ),
-        #     use_container_width = True
-        # )
+        ) 
+
+        '''
+        O período de pandemia também impactou a relação comercial entre países. No entanto, em 2021, observamos uma melhora em alguns países, exceto no Reino Unido e Haiti. 
+        Embora não tenhamos observado um aumento nesses casos específicos, é importante lembrar que ambos têm um bom histórico nas exportações de vinho e crescimento do PIB. 
+        Indicando assim perspectivas positivas para o futuro também nesses países.
+        '''
+        st.write("\n")
+        st.write("\n")
         st.markdown('### Consumo de álcool - WHO/OIV')
 
         '''
-        ##### Valores de consumo de vinho e álcool dos países que mais impactam na exportação de vinhos\n
-        ***Valores sobre o consumo de vinho correspondentes ao período de 15 anos entre 2007 a 2021***\n
-        Com a analise dos próximos gráficos nota-se que os dados da Organização Internacional de Vinha e Vinho apresentam um aumento de consumo de vinho no ultimo com exceção da China.\n
-        Mas ao analisar em conjunto com os dados de projeção de consumo de álcool para 2025 da Organização Mundial da Saúde esperamos um aumento no consumo de vinho no período
+        ##### Valores de consumo de vinho e álcool dos países que mais impactam na exportação de vinhos
         '''
 
         st.markdown('###### Valor US$')
@@ -615,6 +581,9 @@ def main():
             ),
             use_container_width = True
         )
+        '''
+        Com a análise dos gráficos acima, nota-se que os dados da Organização Internacional de Vinha e Vinho apresentam um aumento de consumo de vinho no último ano com exceção da China.\n
+        '''
 
         '''
         ***Valores sobre o consumo de álcool correspondentes ao fato e projeção com intervalo de confiança de 95% para os anos de 2020 e 2025***
@@ -630,8 +599,10 @@ def main():
         )
 
         '''
-            Dados disponíveis no **World Health Organization**\n
-            Diferença corresponde ao valor da projeção para 2025 menos valor fato de 2020
+        As projeções acima foram feitas com Dados disponíveis no **World Health Organization**, que mostram a diferença entre o valor da projeção para 2025 e valor fato de observado em 2020.
+        Analisando os dados de projeção de consumo de álcool para 2025 em conjunto com os de consumo de vinho, espera-se um aumento no consumo de vinho para 2025.
+        
+        
         '''
 
         st.markdown("---")

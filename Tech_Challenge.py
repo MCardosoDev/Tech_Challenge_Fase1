@@ -1,7 +1,6 @@
 #%%
 import pandas as pd
 import streamlit as st
-import locale
 from Utils import plot_pareto, plot_regressao_estimada, plot_consumo_projetado, plot_comparacao
 
 #%%
@@ -142,14 +141,13 @@ def main():
         '''
 
     with tab1:
-        locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
-        valor = locale.currency(dataset_exp.Valor.sum(), grouping=True, symbol=True)
-        quantidade = locale.format_string("%.2f", dataset_exp.Quantidade.sum(), grouping=True)
+        valor = "{:,.2f}".format(dataset_exp.Valor.sum())
+        quantidade = "{:,.2f}".format(dataset_exp.Quantidade.sum())
         st.markdown('***Valores totais de exportação de vinhos no período de 15 anos entre 2007 a 2021***')
         st.markdown(
             f"""
             <div style="padding: 20px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); background-color: #f5f5f5; color: #000000; text-align: center;">
-                <p style="font-size: 24px; font-weight: bold; display: inline; margin-right: 400px;">{valor}</p>
+                <p style="font-size: 24px; font-weight: bold; display: inline; margin-right: 400px;"> US$ {valor}</p>
                 <p style="font-size: 24px; font-weight: bold; display: inline;">{quantidade} L</p>
             </div>
             """,

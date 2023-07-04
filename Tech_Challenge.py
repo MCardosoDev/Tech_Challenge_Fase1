@@ -5,61 +5,61 @@ import locale
 from Utils import plot_pareto, plot_regressao_estimada, plot_consumo_projetado, plot_comparacao
 
 #%%
-dataset_exp = pd.read_csv('Data/ExpVinhoPeriodo.csv', sep=',')
+dataset_exp = pd.read_csv('./Data/ExpVinhoPeriodo.csv', sep=',')
 dataset_exp = dataset_exp.sort_values('Valor', ascending=False)
 dataset_exp.head(10)
 
 #%%
-dataset_imp = pd.read_csv('Data/ImpVinhosPeriodo.csv', sep=',')
+dataset_imp = pd.read_csv('./Data/ImpVinhosPeriodo.csv', sep=',')
 dataset_imp = dataset_imp.sort_values('Valor', ascending=False)
 dataset_imp.head(10)
 
 #%%
-dataset_exp_pareto = pd.read_csv('Data/ExpPareto.csv', sep=',')
+dataset_exp_pareto = pd.read_csv('./Data/ExpPareto.csv', sep=',')
 dataset_exp_pareto.head(10)
 
 #%%
-dataset_imp_pareto = pd.read_csv('Data/ImpPareto.csv', sep=',')
+dataset_imp_pareto = pd.read_csv('./Data/ImpPareto.csv', sep=',')
 dataset_imp_pareto.head(10)
 
 #%%
-dataset_pib = pd.read_csv('Data/Pib.csv', sep=',')
+dataset_pib = pd.read_csv('./Data/Pib.csv', sep=',')
 dataset_pib.head(10)
 
 #%%
-dataset_inflation = pd.read_csv('Data/Inflation.csv', sep=',')
+dataset_inflation = pd.read_csv('./Data/Inflation.csv', sep=',')
 dataset_inflation.head(10)
 
 #%%
-dataset_trade = pd.read_csv('Data/Trade.csv', sep=',')
+dataset_trade = pd.read_csv('./Data/Trade.csv', sep=',')
 dataset_trade.head(10)
 
 #%%
-dataset_population = pd.read_csv('Data/Population.csv', sep=',')
+dataset_population = pd.read_csv('./Data/Population.csv', sep=',')
 dataset_population.head(10)
 
 #%%
-dataset_unemployment = pd.read_csv('Data/Unemployment.csv', sep=',')
+dataset_unemployment = pd.read_csv('./Data/Unemployment.csv', sep=',')
 dataset_unemployment.head(10)
 
 #%%
-dataset_exportacao = pd.read_csv('Data/Exportacao.csv', sep=',')
+dataset_exportacao = pd.read_csv('./Data/Exportacao.csv', sep=',')
 dataset_exportacao.head(10)
 
 #%%
-dataset_importacao = pd.read_csv('Data/Importacao.csv', sep=',')
+dataset_importacao = pd.read_csv('./Data/Importacao.csv', sep=',')
 dataset_importacao.head(10)
 
 #%%
-dataset_consumo = pd.read_csv('Data/Consumo.csv', sep=',')
+dataset_consumo = pd.read_csv('./Data/Consumo.csv', sep=',')
 dataset_consumo.head(10)
 
 #%%
-dataset_consumo_vinho = pd.read_csv('Data/ConsumoVinho.csv', sep=',')
+dataset_consumo_vinho = pd.read_csv('./Data/ConsumoVinho.csv', sep=',')
 dataset_consumo_vinho.head(10)
 
 #%%
-dataset_wht = pd.read_csv('Data/wht.csv', sep=',')
+dataset_wht = pd.read_csv('./Data/wht.csv', sep=',')
 dataset_wht.head(10)
 
 #%%

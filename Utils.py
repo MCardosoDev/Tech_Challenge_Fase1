@@ -73,7 +73,7 @@ def plot_pareto(data, bar_x, bar_y, scatter_x, scatter_y, title_x, title_y, mean
         showarrow=True,
         arrowhead=1,
         ax=40,
-        ay=-40,
+        ay=-80,
         xref='x',
         font=dict(color='LightBlue')
     )
@@ -90,7 +90,7 @@ def plot_regressao_estimada(data, title, data_type, country_order=None):
     regressao.update_layout(
         title=title,
         width=1300,
-        height=num_paises*133,
+        height=num_paises*150,
         showlegend=False,
         colorway = [
             "#ADD8E6",   # LightBlue

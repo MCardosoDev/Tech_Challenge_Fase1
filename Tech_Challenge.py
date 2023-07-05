@@ -653,7 +653,7 @@ def main():
         Mesmo com uma queda na exportação nos últimos anos, a Rússia detém um mercado muito importantes para exportação em um nível global.\n
         No contexto do conflito russo-ucraniano que se iniciou em 2022, a exportação de vinhos para esse país pode se tornar uma tarefa complexa. 
         Desafios logísticos como restrições de transporte e bloqueios podem se apresentar como obstáculos significativos. \n
-        Entretanto, informações recentes divulgadas pela imprensa portuguesa apontam que a Rússia triplicou a importação de vinhos portugueses. 
+        Entretanto, informações recentes divulgadas pela imprensa portuguesa apontam que a Rússia triplicou a importação de vinhos portugueses*. 
         Isso reforça a importância do Brasil considerar o fortalecimento das exportações de vinhos para esse mercado. Além disso, o histórico de 
         exportações entre 2007 e 2021 mostra que a Rússia teve uma resposta positiva aos vinhos brasileiros, especialmente em 2013, sendo uma boa janela 
         de oportunidade.\n
@@ -663,7 +663,7 @@ def main():
         histórico no PIB e queda histórica na inflação, mesmo durante a Covid-19.\n
         Expandindo a análise para outras esferas da geopolítica, as tensões entre China e EUA também podem criar tanto oportunidades quanto desafios para 
         o Brasil. Os EUA têm mostrado uma tendência de crescimento na importação e consumo de bebidas alcoólicas, incluindo o vinho. Por outro lado, um 
-        documentário recente destacou o crescimento do setor vinícola chinês com foco na exportação. \n
+        documentário recente destacou o crescimento do setor vinícola chinês com foco na exportação**. \n
         O Paraguai é um país de fronteira e com um paladar que propicia a exportação de vinhos brasileiros, que indica porque é um país que está no topo 
         de importação de vinhos brasileiros, sendo um mercado muito promissor.\n
         O Haiti é um país que, apesar de ter um clima mais quente, teve o maior aumento na exportação de vinhos brasileiros. É o país com o maior aumento histórico do PIB da lista, 
@@ -673,6 +673,15 @@ def main():
         tapeçaria complexa e imprevisível, é preciso que estejamos preparados para nos adaptar rapidamente às mudanças no mercado.
 
         '''
+
+        st.markdown(
+        '<span class="small-font">*https://www.dinheirovivo.pt/economia/exportacoes-de-vinho-para-a-russia-e-a-ucrania-quase-duplicaram-no-primeiro-trimestre-16359199.html',
+        unsafe_allow_html=True
+        )
+        st.markdown(
+        '<span class="small-font">**https://exame.com/casual/a-china-e-a-proxima-superpotencia-do-vinho-documentario-tenta-responder/',
+        unsafe_allow_html=True
+        )
 
 if __name__ == "__main__":
     main()

@@ -439,7 +439,6 @@ def main():
         ***Valores correspondentes ao período de 15 anos entre 2007 a 2021***
         '''
 
-        st.markdown('###### Valor US$')
         st.plotly_chart(
             plot_pareto(
                 dataset_imp_pareto.query("Porcentagem_acumulada_valor < 99 or Porcentagem_acumulada_quantidade < 99"),
@@ -448,7 +447,7 @@ def main():
                 "Pais_destino",
                 "Porcentagem_acumulada_valor",
                 "País",
-                "Valor",
+                "Valor (US$)",
                  dataset_imp_pareto.Valor.mean()
             ),  use_container_width = True
         )
@@ -518,8 +517,6 @@ def main():
         ***Valores correspondentes ao período de 15 anos entre 2007 a 2021***
         '''
 
-       
-        st.markdown('###### Valor US$')
         st.plotly_chart(
             plot_regressao_estimada(
                 dataset_pib[dataset_pib['pais'].isin(ordem)],
@@ -673,7 +670,7 @@ def main():
         tapeçaria complexa e imprevisível, é preciso que estejamos preparados para nos adaptar rapidamente às mudanças no mercado.
 
         '''
-
+        st.markdown("---")
         st.markdown(
         '<span class="small-font">*https://www.dinheirovivo.pt/economia/exportacoes-de-vinho-para-a-russia-e-a-ucrania-quase-duplicaram-no-primeiro-trimestre-16359199.html',
         unsafe_allow_html=True

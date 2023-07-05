@@ -102,7 +102,7 @@ def main():
     tab0, tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
                                                                 "Geral",
                                                                 "Exportação de Vinhos",
-                                                                "Vinhos - Analise de Pareto",
+                                                                "Vinhos - Análise de Pareto",
                                                                 "Valores de Exportação",
                                                                 "Cenário mais Recente",
                                                                 "Valores de Importação",

@@ -107,7 +107,7 @@ def main():
                                                                 "Cenário mais Recente",
                                                                 "Valores de Importação",
                                                                 "Dados Externos",
-                                                                "Resultados"
+                                                                "Conclusões"
                                                             ])
 
     with tab0:
@@ -574,7 +574,7 @@ def main():
         st.plotly_chart(
             plot_regressao_estimada(
                 dataset_consumo_vinho[dataset_consumo_vinho['pais'].isin(ordem)],
-                'Consumo de vinho per capita (L)',
+                'Consumo de vinho (10³ L)',
                 int,
                 ordem
             ),
@@ -591,7 +591,7 @@ def main():
         st.plotly_chart(
             plot_consumo_projetado(
                 dataset_consumo[dataset_consumo['pais'].isin(ordem)],
-                'Diferença entre valor projetado para 2025 e valor real em 2020 do consumo de álcool (L)',
+                'Diferença entre valor projetado para 2025 e valor real em 2020 do consumo de álcool per capita (L)',
                 ordem
             ),
             use_container_width = True
@@ -633,7 +633,7 @@ def main():
     with tab7:
         
         '''
-        #### Resultados da análise
+        #### Conclusões da análise
         
         Primeiramente, é fundamental ressaltar que a situação geopolítica tem um impacto significativo no comércio internacional, e o setor vinícola não é exceção. 
         Tensões políticas e conflitos podem conduzir a restrições comerciais, tarifas altas e, em algumas situações, até a embargos totais. 
@@ -650,40 +650,28 @@ def main():
         - **Reino Unido**
         - **Rússia**
 
-        Excluímos os países analisados que são responsáveis pelo maior volume importado mantendo apenas os Estados Unidos.\n
-        Mesmo com uma queda na exportacao no período Estados Unidos e Rússia detém mercados muito importantes para exportação em um nível global.
+        Mesmo com uma queda na exportação nos últimos anos, a Rússia detém um mercado muito importantes para exportação em um nível global.\n
+        No contexto do conflito russo-ucraniano que se iniciou em 2022, a exportação de vinhos para esse país pode se tornar uma tarefa complexa. 
+        Desafios logísticos como restrições de transporte e bloqueios podem se apresentar como obstáculos significativos. \n
+        Entretanto, informações recentes divulgadas pela imprensa portuguesa apontam que a Rússia triplicou a importação de vinhos portugueses. 
+        Isso reforça a importância do Brasil considerar o fortalecimento das exportações de vinhos para esse mercado. Além disso, o histórico de 
+        exportações entre 2007 e 2021 mostra que a Rússia teve uma resposta positiva aos vinhos brasileiros, especialmente em 2013, sendo uma boa janela 
+        de oportunidade.\n
+        Além disso tanto Rússia, como Reino Unido têm um aumento projetado no consumo de álcool para 2025, e ambos estão em crescimento no consumo de vinho nos últimos anos, 
+        sendo mercados com importância global para o comércio.\n
+        A China, apesar de ter uma queda na exportação de vinho em 2021, é um país com um mercado de grande potencial a ser explorado. Apresenta um aumento 
+        histórico no PIB e queda histórica na inflação, mesmo durante a Covid-19.\n
+        Expandindo a análise para outras esferas da geopolítica, as tensões entre China e EUA também podem criar tanto oportunidades quanto desafios para 
+        o Brasil. Os EUA têm mostrado uma tendência de crescimento na importação e consumo de bebidas alcoólicas, incluindo o vinho. Por outro lado, um 
+        documentário recente destacou o crescimento do setor vinícola chinês com foco na exportação. \n
+        O Paraguai é um país de fronteira e com um paladar que propicia a exportação de vinhos brasileiros, que indica porque é um país que está no topo 
+        de importação de vinhos brasileiros, sendo um mercado muito promissor.\n
+        O Haiti é um país que, apesar de ter um clima mais quente, teve o maior aumento na exportação de vinhos brasileiros. É o país com o maior aumento histórico do PIB da lista, 
+        mesmo com a Covid-19. De acordo com a OMS e a OIV é projetado um aumento no consumo de álcool e um aumento histórico no consumo de vinho, tendo assim 
+        o ótimo mercado a ser explorado.\n
+        Por fim, é essencial lembrar que estes são apenas cenários hipotéticos, e a realidade pode divergir dependendo de uma ampla variedade de fatores. A geopolítica global é uma 
+        tapeçaria complexa e imprevisível, é preciso que estejamos preparados para nos adaptar rapidamente às mudanças no mercado.
 
-        No contexto do conflito russo-ucraniano que se iniciou em 2022, a exportação de vinhos para esses países pode se tornar uma tarefa complexa. 
-        Desafios logísticos como restrições de transporte e bloqueios podem se apresentar como obstáculos significativos. 
-        No entanto, o Brasil poderia encontrar uma janela de oportunidade caso estes países busquem alternativas aos vinhos europeus devido a alianças políticas.
-
-        Entretanto, informações recentes divulgadas pela imprensa portuguesa apontam que a Rússia triplicou a importação de vinhos portugueses, 
-        o que pode sugerir um alinhamento estratégico com menor abertura para o mercado brasileiro. 
-
-        Porem a Rússia como Reino Unido tem um aumento projetado no consumo de álcool para 2025, 
-        e ambos estão em crescimento no consumo de vinho nos últimos anos, sendo mercados com importância global para o comercio.
- 
-        A China, apesar de ter uma queda na exportação de vinho em 2021, é um país com um mercado de grande potencial a ser explorado. 
-        Apresenta um aumento histórico no PIB e queda histórica na inflação, mesmo durante a Covid-19.
-
-        Expandindo a análise para outras esferas da geopolítica, as tensões entre China e EUA também podem criar tanto oportunidades quanto desafios para o Brasil. 
-        Os EUA têm mostrado uma tendência de crescimento na importação e consumo de bebidas alcoólicas, incluindo o vinho. 
-        Por outro lado, um documentário recente destacou o crescimento do setor vinícola chinês com foco na exportação. 
-        Considerando este cenário, pode ser estrategicamente mais vantajoso para o vinho brasileiro competir por espaço em 
-        mercados de países não diretamente envolvidos na tensão sino-americana, 
-        ou em países próximos como Chile, Uruguai e Argentina que importam uma quantidade alta de vinhos muito consumidos no 
-        Brasil mas podemos explorar a exportacao pela facilidade de logística utilizando a fronteira.
-
-        O Paraguai é um país de fronteira e com um paladar que propicia a exportação de vinhos brasileiros, 
-        que indica porque é um país que esta no topo de importacao de vinhos brasileiros.
-
-        O Haiti é um país que, apesar de ter um clima mais quente, teve o maior aumento na exportação de vinhos brasileiros. 
-        É o país com o maior aumento histórico do PIB da lista, mesmo com a Covid-19. 
-        De acordo com a OMS e a OIV é projetado um aumento no consumo de álcool e um aumento histórico no consumo de vinho, 
-        tendo assim o ótimo mercado a ser explorado.
-
-        Por fim, é essencial lembrar que estes são apenas cenários hipotéticos e a realidade pode divergir dependendo de uma ampla variedade de fatores. 
-        A geopolítica global é uma tapeçaria complexa e imprevisível, é preciso que estejamos preparados para nos adaptar rapidamente às mudanças no mercado.
         '''
 
 if __name__ == "__main__":
